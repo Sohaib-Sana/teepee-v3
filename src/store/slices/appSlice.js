@@ -6,7 +6,6 @@ const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {},
-  extraReducers: {},
 });
 
 // export const {} = appSlice.actions;

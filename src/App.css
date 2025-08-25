@@ -1,10 +1,13 @@
+
+/* Reset root container */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
+/* Logo styles */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -18,6 +21,7 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Logo spin animation */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -33,10 +37,83 @@
   }
 }
 
+/* Card utility */
 .card {
   padding: 2em;
 }
 
+/* Docs text */
 .read-the-docs {
   color: #888;
+}
+
+/* -------------------------- TEEPEE AUTH PAGE ---------------------------- */
+
+.teepee-heading {
+  color: #1d192b;
+  font-family: Segoe UI;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  /* 112.5% */
+  letter-spacing: 2.16px;
+}
+
+.teepee-sub-heading {
+  color: #49454f;
+  font-family: Segoe UI;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  /* 133.333% */
+  letter-spacing: -0.16px;
+}
+
+.jess_icon {
+  position: absolute;
+  width: 167px;
+  height: 42px;
+  top: 21px;
+}
+
+/* Footer styles */
+.jess_footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+.jess_footer_sm {
+  float: left;
+  width: 100%;
+  font-size: 14px;
+  height: 42px;
+  bottom: 21px;
+}
+
+.sign-in-label {
+  color: #1d192b;
+  text-align: center;
+  font-family: Segoe UI;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+
+  /* 125% */
+}
+
+.login-options {
+  color: #49454f;
+  text-align: center;
+  font-family: Segoe UI;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  /* 150% */
 }

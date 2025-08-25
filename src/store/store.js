@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer from "./slices/appSlice";
+import authReducer from "./slices/authSlice";
+import uiReducer from "./slices/uiSlice";
 
 const store = configureStore({
-  redux: {
-    appReducer: appReducer,
+  reducer: {
+    app: appReducer,
+    auth: authReducer,
+    ui: uiReducer,
   },
 });
+
+export default store;
