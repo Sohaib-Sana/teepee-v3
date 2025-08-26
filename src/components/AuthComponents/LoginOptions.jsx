@@ -1,4 +1,16 @@
+import { useGoogleLogin } from "@react-oauth/google";
+
 function LoginOptions() {
+
+  const googleLogin =  useGoogleLogin({
+    onSuccess: (credentialReponse)=>{
+        console.log("Success: ", credentialReponse);
+    },
+    onError: (error)=>{
+        console.log("ERROR: ", error)
+    }
+});
+
   return (
     <>
       <div className="login-options my-10">
@@ -6,14 +18,14 @@ function LoginOptions() {
       </div>
 
       <div className="space-y-4">
-        <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50">
+        <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50" onClick={()=>googleLogin()}>
           <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" className="w-5 h-5" />
           Continue with Google
         </button>
-        {/* <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50">
+        <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50">
           <img src="https://www.svgrepo.com/show/303144/microsoft-icon-logo.svg" alt="Microsoft" className="w-5 h-5" />
           Continue with Microsoft
-        </button> */}
+        </button>
         <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50">Continue with Email</button>
       </div>
 

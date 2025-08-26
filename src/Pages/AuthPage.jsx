@@ -8,8 +8,8 @@ import { userRoles } from "../store/slices/uiSlice";
 function AuthPage() {
   const selectedUiRole = useSelector((state) => state.ui.authUi);
   const data = [
-    { label: userRoles.Student, value: userRoles.Student, body: [<LoginOptions />] },
-    { label: userRoles.Teacher, value: userRoles.Teacher, body: [<LoginOptions />] },
+    { label: userRoles.Student, value: userRoles.Student, body: <LoginOptions /> },
+    { label: userRoles.Teacher, value: userRoles.Teacher, body: <LoginOptions /> },
   ];
 
   return (
@@ -18,17 +18,17 @@ function AuthPage() {
         <AuthPageLeftSide />
         <div className="flex items-center justify-center min-h-screen bg-white">
           {!selectedUiRole ? (
-            <UserRoleSelection />
+            <UserRoleSelection /> // Landing page where user selects role (Teacher/Student)
           ) : (
             <div className="flex items-center justify-center w-full h-full bg-white">
               <div className="w-full max-w-[400px] text-center">
                 <div className="sign-in-label mb-[20px]">
                   <p>Join Teepee as a</p>
                 </div>
-                <LoginTabs data={data} />
+                <LoginTabs data={data}/>
               </div>
             </div>
-          )}
+           )}
         </div>
       </div>
     </section>
