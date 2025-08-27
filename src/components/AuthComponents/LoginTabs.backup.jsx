@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { setUserState, userRoles } from "../../store/slices/uiSlice";
+
 import { useDispatch, useSelector } from "react-redux";
+import { setUserRoleState } from "../../store/slices/authUiSlice";
 
 const LoginTabs = ({ data }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(useSelector((state) => state.ui.authUi));
+
   const handleTabClick = (event) => {
-    dispatch(setUserState(event.target.value));
+    dispatch(setUserRoleState(event.target.value));
     setActive(event.target.value);
   };
 
   return (
     <div id="custom-animation" className="w-full">
       {/* Header */}
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <div className="flex w-1/2 h-[48px] bg-white p-0 border rounded-[0.5rem] border-[#6750A4]">
           {data.map(({ label, value }, index) => {
             const isActive = active === value;
@@ -44,7 +46,7 @@ const LoginTabs = ({ data }) => {
             );
           })}
         </div>
-      </div>
+      </div> */}
 
       {/* Body */}
       <div className="mt-4">

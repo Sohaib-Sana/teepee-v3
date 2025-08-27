@@ -7,6 +7,166 @@
   padding: 0;
 }
 
+/* ---------- Shared form tokens ---------- */
+:root {
+  --font-sans: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+
+  --color-text: #101010;
+  --color-muted: #7e7f86;
+  --color-label: #353846;
+  --color-border: #8B8B90;
+  --color-link: #A07BEC;
+  --color-primary: #A07BEC;
+  --color-primary-press: #8E66E2;
+  --color-primary-disabled: #C9B6F5;
+  --color-surface: #fff;
+
+  --r-md: 8px;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+}
+
+/* ---------- Form layout ---------- */
+.form-shell {
+  width: 100%;
+  max-width: 560px;
+  /* gives the wide look from screenshot #1 */
+  margin: 0 auto;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+}
+
+.form {
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-5);
+}
+
+.form-label,
+.form-field-label {
+  /* keep compatibility with your old class */
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--color-label);
+}
+
+/* ---------- Inputs ---------- */
+.form-input,
+.textfield-text {
+  /* keep compatibility with your old class */
+  height: 48px;
+  width: 100%;
+  padding: 0 var(--sp-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-md);
+  font-size: 14px;
+  line-height: 18px;
+  color: #000;
+  background: var(--color-surface);
+}
+
+.form-input::placeholder,
+.textfield-text::placeholder,
+input::placeholder {
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.form-input:focus,
+.textfield-text:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(160, 123, 236, 0.25);
+}
+
+/* ---------- Help link under password ---------- */
+.form-help-link {
+  margin-top: var(--sp-2);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.form-help-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 var(--sp-5);
+  border: 0;
+  border-radius: var(--r-md);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-press);
+}
+
+.btn-primary:disabled {
+  background: var(--color-primary-disabled);
+  cursor: not-allowed;
+}
+
+/* ---------- “Or” & secondary action ---------- */
+.form-divider {
+  margin: var(--sp-4) 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.link-button,
+.create-new-account-text {
+  /* keep compatibility with your existing class */
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  border: 0;
+  padding: var(--sp-2) 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+.link-button:hover,
+.create-new-account-text:hover {
+  text-decoration: underline;
+}
+
 /* Logo styles */
 .logo {
   height: 6em;
@@ -45,6 +205,16 @@
 /* Docs text */
 .read-the-docs {
   color: #888;
+}
+
+.primary-button {
+  font-style: normal;
+  font-weight: 450;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+  background-color: #A07BEC ;
+  color: #ffffff;
 }
 
 /* -------------------------- TEEPEE AUTH PAGE ---------------------------- */
@@ -116,4 +286,47 @@
   font-weight: 400;
   line-height: 24px;
   /* 150% */
+}
+
+.create-new-account-text {
+  color: var(--link-color, #a07bec);
+  text-align: center;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  /* 142.857% */
+  width: 100%;
+}
+
+.form-field-label {
+  /* width: 56.71px; */
+  height: 18px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  color: #353846;
+  margin-bottom: 10px;
+  /* margin-left: 20px; */
+}
+
+.textfield-text {
+  font-style: normal;
+  font-weight: 450;
+  font-size: 14px;
+  line-height: 18px;
+  color: #7e7f86;
+}
+
+/* #username::placeholder, #email::placeholder, #password::placeholder { */
+
+input::placeholder {
+  color: #79747e;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
 }

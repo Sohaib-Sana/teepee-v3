@@ -1,21 +1,49 @@
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, redirect } from "react-router-dom";
 import "./App.css";
-import AuthPage from "./Pages/AuthPage";
-import LoginForm from "./components/AuthComponents/LoginForm";
-import SignupForm from "./components/AuthComponents/SignupForm";
+import AuthLayout from "./Layouts/authLayout";
+import getToken from './utils/token_helper'
+import AppLayout from './Layouts/AppLayout'
+import Dashboard from "./Pages/Dashboard";
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";
+import ForgotPage from "./Pages/ForgotPage";
 
 function App() {
-  function ProtectedRoute({ children, isAuthenticated }) {
-    return isAuthenticated ? children : <Navigate to="/auth" />;
+
+  // Protect app (Dashboard)
+  async function appGuardLoader() {
+    const token = getToken();
+    if (!token) {
+      throw redirect('/login')
+    }
+    return null
+  }
+
+  
+  // Prevent seeing auth pages when already logged in
+  async function authGuardLoader() {
+    const token = getToken()
+    if (token) {
+      throw redirect('/')
+    }
+    return null
   }
 
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <AuthPage />,
+      path: '/',
+      element: <AppLayout/>,
+      loader: appGuardLoader,
       children: [
-        { path: "login", element: <LoginForm /> },
-        { path: "register", element: <SignupForm /> },
+        {index: true, element: <Dashboard/>}
+      ]
+    },
+    {
+      element: <AuthLayout />,
+      children: [
+        { path: "/login", element: <LoginPage />, loader: authGuardLoader },
+        { path: "/register", element: <RegisterPage />,  loader: authGuardLoader },
+        { path: "/forgot_password", element: <ForgotPage/>,  loader: authGuardLoader },
       ],
     },
   ]);

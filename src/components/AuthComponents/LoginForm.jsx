@@ -1,9 +1,53 @@
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
+import {statusEnum} from '../../store/slices/authSlice'
 
 function LoginForm() {
-  const authUiState = useSelector((state) => state.ui.authUi);
+  const status = useSelector(state => state.auth.status);
+  const handleSubmit = () => {}
+   return (
+    <div className="form-shell">
+      <form className="form" onSubmit={handleSubmit} noValidate>
+        <div className="form-group">
+          <label className="form-label" htmlFor="email">
+            Enter your email address:
+          </label>
+          <input
+            className="form-input"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your Username"
+            autoComplete="email"
+          />
+        </div>
 
-  return <div className="flex items-center justify-center min-h-screen bg-white"></div>;
+        <div className="form-group">
+          <label className="form-label" htmlFor="password">
+            Password:
+          </label>
+          <input
+            className="form-input"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your Password"
+            autoComplete="current-password"
+          />
+          <a className="form-help-link" href="/forgot_password">
+            Forgot your password?
+          </a>
+        </div>
+
+        <button
+          className="btn btn-primary btn-block"
+          type="submit"
+          disabled={status === statusEnum?.Loading}
+        >
+          Sign In
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default LoginForm;

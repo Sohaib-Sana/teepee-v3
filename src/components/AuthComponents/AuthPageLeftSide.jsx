@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import TeepeeIcon from "../../assets/images/teepeeAi.png";
 import Background from "../../assets/images/Rectangle.png";
 import Footer from "./Footer";
-import { userRoles } from "../../store/slices/uiSlice";
+import { userRoles } from "../../store/slices/authUiSlice";
 
 function AuthPageLeftSide() {
   const authUiState = useSelector((state) => state.ui.authUi);

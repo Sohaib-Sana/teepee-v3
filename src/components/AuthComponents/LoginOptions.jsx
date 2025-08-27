@@ -1,6 +1,6 @@
 import { useGoogleLogin } from "@react-oauth/google";
 
-function LoginOptions() {
+function LoginOptions({onEmail}) {
 
   const googleLogin =  useGoogleLogin({
     onSuccess: (credentialReponse)=>{
@@ -12,7 +12,7 @@ function LoginOptions() {
 });
 
   return (
-    <>
+    <div className="form-shell">
       <div className="login-options my-10">
         Choose how would you like to sign in your<br></br> Teepee.ai account
       </div>
@@ -26,18 +26,20 @@ function LoginOptions() {
           <img src="https://www.svgrepo.com/show/303144/microsoft-icon-logo.svg" alt="Microsoft" className="w-5 h-5" />
           Continue with Microsoft
         </button>
-        <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50">Continue with Email</button>
+        <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50" onClick={onEmail}>Continue with Email</button>
       </div>
 
-      <div className="mt-4 flex items-center justify-center gap-2">
+      {/* <div className="mt-4 flex items-center justify-center gap-2">
         <input type="checkbox" id="updates" defaultChecked className="accent-purple-600" />
         <label htmlFor="updates" className="text-sm text-gray-600">
           I want to receive updates about Teepee
         </label>
-      </div>
-
-      <p className="mt-4 text-purple-600 cursor-pointer">Create new account</p>
-    </>
+      </div> */}
+{/* 
+      <button type="button" className="link-button" onClick={() => {}}>
+        Create new account
+      </button> */}
+    </div>
   );
 }
 export default LoginOptions;
