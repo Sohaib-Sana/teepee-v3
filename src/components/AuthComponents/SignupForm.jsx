@@ -36,7 +36,7 @@ function SignupForm() {
     
             <div className="form-group">
               <label className="form-label" htmlFor="password">
-                Enter Password:
+                Enter your Password:
               </label>
               <input
                 className="form-input"
@@ -53,8 +53,8 @@ function SignupForm() {
               <input
                 className="form-input"
                 type="password"
-                id="password"
-                name="password"
+                id="confirm-password"
+                name="confirm-password"
                 placeholder="Enter your Password"
                 autoComplete="current-password"
               />
