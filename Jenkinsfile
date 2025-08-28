@@ -62,7 +62,7 @@ pipeline {
           sh ' scp build_prod.zip billy-240:/home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' ssh billy-240 unzip /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/build_prod.zip -d /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' ssh billy-240 rm -rf /var/www/pb.aiteepeewebproduction.com/html/*'
-          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/build/* /var/www/pb.aiteepeewebproduction.com/html/'
+          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/* /var/www/pb.aiteepeewebproduction.com/html/'
            }
         }
       } 
