@@ -33,8 +33,8 @@ pipeline {
           sh ' ssh billy-240 mkdir -p /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' scp build_staging.zip billy-240:/home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' ssh billy-240 unzip /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/build_staging.zip -d /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
-          sh ' ssh billy-240 rm -rf /var/www/pb.aiteepeeweb.com/html/*'
-          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/* /var/www/pb.aiteepeeweb.com/html/'
+          sh ' ssh billy-240 rm -rf /var/www/pb.teepee-v3-web-staging.com/html/*'
+          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/* /var/www/pb.teepee-v3-web-staging.com/html'
           
            }
         }
