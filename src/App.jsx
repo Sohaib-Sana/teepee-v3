@@ -7,10 +7,9 @@ import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import ForgotPage from "./Pages/ForgotPage";
+import PapersPage from "./Pages/PapersPage";
 
 function App() {
-  console.log("Env: ", import.meta.env);
-
   // Protect app (Dashboard)
   async function appGuardLoader() {
     const token = getToken();
@@ -34,14 +33,18 @@ function App() {
       path: "/",
       element: <AppLayout />,
       loader: appGuardLoader,
-      children: [{ index: true, element: <Dashboard /> }],
+      children: [
+        { index: true, element: <Dashboard /> },
+        { path: "/papers", element: <PapersPage /> },
+      ],
     },
     {
       element: <AuthLayout />,
+      loader: authGuardLoader,
       children: [
-        { path: "/login", element: <LoginPage />, loader: authGuardLoader },
-        { path: "/register", element: <RegisterPage />, loader: authGuardLoader },
-        { path: "/forgot_password", element: <ForgotPage />, loader: authGuardLoader },
+        { path: "/login", element: <LoginPage /> },
+        { path: "/register", element: <RegisterPage /> },
+        { path: "/forgot_password", element: <ForgotPage /> },
       ],
     },
   ]);

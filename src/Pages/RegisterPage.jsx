@@ -1,10 +1,14 @@
 import React from "react";
 import SignupForm from "../components/AuthComponents/SignupForm";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginSteps, setAuthView } from "../store/slices/authUiSlice";
 
 function RegisterPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleAreadyHaveAccount = () => {
+    dispatch(setAuthView(loginSteps.OptionsView));
     navigate("/login");
   };
   return (

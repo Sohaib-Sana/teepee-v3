@@ -1,17 +1,21 @@
 import axios from "axios";
+import getToken from "./token_helper";
 
-export const api = axios.create({baseURL: import.meta.env.VITE_BASE_URL});
+export const api = axios.create({ baseURL: import.meta.env.VITE_BASE_URL });
 
-api.interceptors.request(
-    (config)=>{
-        const token = localStorage.getItem('access_token');
-    if(token){
-        config.headers.Authorization = `Bearer ${token}`
+api.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Accept = "application/json";
     }
-     return config; 
-    },(error) => {
+    return config;
+  },
+  (error) => {
     return Promise.reject(error);
-  });
+  }
+);
 
 api.interceptors.response.use(
   (response) => response, // just pass it through if OK
