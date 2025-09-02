@@ -12,12 +12,12 @@ export default function Footer() {
         <div className="flex mt-2">
           <div className="mr-4 text-black">© Teepee.ai. All rights reserved</div>
           <div className="mr-4">
-            <a href="/about_us" target="_blank" rel="noopener noreferrer" className="text-black">
+            <a href="/about_us" target="_blank" rel="noopener noreferrer" className="text-black underline">
               About
             </a>
           </div>
           <div>
-            <a href="https://teepee.ai/privacy-policy-for-teepee-ai/" target="_blank" rel="noopener noreferrer" className="text-black">
+            <a href="https://teepee.ai/privacy-policy-for-teepee-ai/" target="_blank" rel="noopener noreferrer" className="text-black underline">
               Privacy Policy
             </a>
           </div>

@@ -1,75 +1,94 @@
-import { useSelector } from "react-redux";
-import { statusEnum } from "../../store/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { registerSchema } from "../../utils/validationSchemas";
+import { registerUser, statusEnum } from "../../store/slices/authSlice";
+import { useRevalidator } from "react-router-dom";
 
 function SignupForm() {
-  const status = useSelector((state)=>state.ui.status)
-  const handleSubmit = ()=>{}
-  return(
-     <div className="form-shell">
-          <form className="form" onSubmit={handleSubmit} noValidate>
+  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
+  const status = useSelector((state) => state.ui.status);
+
+  const handleSubmit = async (values) => {
+    const resultAction = await dispatch(registerUser(values));
+    if (registerUser.fulfilled.match(resultAction)) {
+      revalidator.revalidate();
+    }
+  };
+
+  return (
+    <div className="form-shell">
+      <Formik
+        initialValues={{
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        }}
+        validationSchema={registerSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form className="form" noValidate>
+            {/* Username */}
             <div className="form-group">
               <label className="form-label" htmlFor="username">
-                Enter your name:
+                Enter your full name:
               </label>
-              <input
-                className="form-input"
-                type="username"
-                id="username"
-                name="username"
-                placeholder="Enter your Username"
-                autoComplete="username"
-              />
+              <Field className="form-input" type="text" id="username" name="username" placeholder="Enter your name here" autoComplete="username" />
+              <ErrorMessage name="username" component="div" className="text-red-500 text-sm mt-1" />
             </div>
+
+            {/* Email */}
             <div className="form-group">
               <label className="form-label" htmlFor="email">
                 Enter your email address:
               </label>
-              <input
-                className="form-input"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your Username"
-                autoComplete="email"
-              />
+              <Field className="form-input" type="email" id="email" name="email" placeholder="Enter your email" autoComplete="email" />
+              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-    
+
+            {/* Password */}
             <div className="form-group">
               <label className="form-label" htmlFor="password">
                 Enter your Password:
               </label>
-              <input
+              <Field
                 className="form-input"
                 type="password"
                 id="password"
                 name="password"
                 placeholder="Enter your Password"
-                autoComplete="current-password"
+                autoComplete="new-password"
               />
-            </div> <div className="form-group">
-              <label className="form-label" htmlFor="password">
+              <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+            </div>
+
+            {/* Confirm Password */}
+            <div className="form-group">
+              <label className="form-label" htmlFor="confirmPassword">
                 Confirm your Password:
               </label>
-              <input
+              <Field
                 className="form-input"
                 type="password"
-                id="confirm-password"
-                name="confirm-password"
-                placeholder="Enter your Password"
-                autoComplete="current-password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Enter same password"
+                autoComplete="new-password"
               />
+              <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-    
-            <button
-              className="btn btn-primary btn-block"
-              type="submit"
-              disabled={status === statusEnum?.Loading}
-            >
 
-              Sign In
+            {/* Submit */}
+            <button className="btn btn-primary btn-block" type="submit" disabled={status === statusEnum?.Loading || isSubmitting}>
+              {status === statusEnum?.Loading ? "Signing Up..." : "Sign Up"}
             </button>
-          </form>
-        </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }
+
 export default SignupForm;

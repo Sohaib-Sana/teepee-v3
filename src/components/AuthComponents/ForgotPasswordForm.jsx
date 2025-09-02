@@ -1,34 +1,45 @@
 import { useSelector } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { emailValidation } from "../../utils/validationSchemas";
 import { statusEnum } from "../../store/slices/authSlice";
+import * as Yup from "yup";
 
-function forgotPassword(){
-    const status = useSelector(state => state.auth.status);
-    const handleSubmit = () => {}
-    return (
+function ForgotPasswordForm() {
+  const status = useSelector((state) => state.auth.status);
+
+  const handleSubmit = (values) => {
+    console.log("Forgot Password Submitted:", values);
+    // Dispatch forgot password action here
+  };
+
+  // Schema (modular, but wrapped in Yup.object here)
+  const forgotPasswordSchema = Yup.object({
+    email: emailValidation,
+  });
+
+  return (
     <div className="form-shell">
-          <form className="form" onSubmit={handleSubmit} noValidate>
+      <Formik initialValues={{ email: "" }} validationSchema={forgotPasswordSchema} onSubmit={handleSubmit}>
+        {({ isSubmitting }) => (
+          <Form className="form" noValidate>
+            {/* Email */}
             <div className="form-group">
               <label className="form-label" htmlFor="email">
                 Enter your email address:
               </label>
-              <input
-                className="form-input"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your Username"
-                autoComplete="email"
-              />
+              <Field className="form-input" type="email" id="email" name="email" placeholder="Enter your email" autoComplete="email" />
+              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-    
-            <button
-              className="btn btn-primary btn-block"
-              type="submit"
-              disabled={status === statusEnum?.Loading}
-            >
-              Next
+
+            {/* Submit */}
+            <button className="btn btn-primary btn-block" type="submit" disabled={status === statusEnum?.Loading || isSubmitting}>
+              {status === statusEnum?.Loading ? "Processing..." : "Next"}
             </button>
-          </form>
-        </div>)
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
 }
-export default forgotPassword;
+
+export default ForgotPasswordForm;
