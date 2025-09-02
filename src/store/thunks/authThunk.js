@@ -28,6 +28,17 @@ export const registerUser = createAsyncThunk("auth/registerUser", async ({ usern
   }
 });
 
+export const googleOrMicrosoftLogin = createAsyncThunk("auth/googleOrMicrosoftLogin", async ({ email, authType, name }) => {
+  try {
+    const response = await api.post("/login_with_google_or_ms_verified_email", { email, auth_type: authType, name });
+    const token = response.data?.access_token;
+    return { token };
+  } catch (error) {
+    console.error("Error in Microsoft Login:", error);
+    return rejectWithValue(error.response?.data?.message || "Failed to login user by email");
+  }
+});
+
 export const sendForgotEmail = createAsyncThunk("auth/forgotEmail", async ({ email }) => {
   //TODO: Call API Here
   return { token: "fake" };

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import getToken, { removeToken, setToken } from "../../utils/token_helper";
-import { emailLogin, registerUser, resetPassword, sendForgotEmail, verifyOtp } from "../thunks/authThunk";
+import { emailLogin, googleOrMicrosoftLogin, registerUser, resetPassword, sendForgotEmail, verifyOtp } from "../thunks/authThunk";
 
 export const statusEnum = { Idle: "idle", Loading: "loading", Succeeded: "succeeded", Failed: "failed" };
 
@@ -53,9 +53,25 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
         s.token = a.payload.token;
-        setToken(a.payload.token), (s.user = a.payload.user);
+        setToken(a.payload.token);
+        s.user = a.payload.user;
       })
       .addCase(registerUser.rejected, (s, a) => {
+        s.status = statusEnum.Failed;
+        s.error = a.error?.message;
+      })
+
+      .addCase(googleOrMicrosoftLogin.pending, (s) => {
+        s.status = statusEnum.Loading;
+        s.error = null;
+      })
+      .addCase(googleOrMicrosoftLogin.fulfilled, (s, a) => {
+        s.status = statusEnum.Succeeded;
+        s.token = a.payload.token;
+        setToken(a.payload.token);
+        s.user = a.payload.user;
+      })
+      .addCase(googleOrMicrosoftLogin.rejected, (s, a) => {
         s.status = statusEnum.Failed;
         s.error = a.error?.message;
       })
