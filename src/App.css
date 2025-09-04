@@ -217,6 +217,12 @@ input::placeholder {
   color: #ffffff;
 }
 
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  /* background-color: #ffffff8f ; */
+}
+
 /* -------------------------- TEEPEE AUTH PAGE ---------------------------- */
 
 .teepee-heading {
