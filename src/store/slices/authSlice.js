@@ -6,11 +6,12 @@ export const statusEnum = { Idle: "idle", Loading: "loading", Succeeded: "succee
 
 const initialState = {
   isAuthenticated: false,
-  user: null, // { id, name, email, role } | null
+  user: null, // { id, name, email, role, subjectId } | null
   token: getToken(), // JWT token | null
   status: statusEnum.Idle, // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
 };
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -52,8 +53,8 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        s.token = a.payload.token;
-        setToken(a.payload.token);
+        s.token = a.payload.access_token;
+        setToken(a.payload.access_token);
         s.user = a.payload.user;
       })
       .addCase(registerUser.rejected, (s, a) => {
@@ -67,9 +68,12 @@ const authSlice = createSlice({
       })
       .addCase(googleOrMicrosoftLogin.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        s.token = a.payload.token;
-        setToken(a.payload.token);
-        s.user = a.payload.user;
+        s.token = a.payload.access_token;
+        setToken(a.payload.access_token);
+        s.user = {
+          ...s.user,
+          ...a.payload.user,
+        };
       })
       .addCase(googleOrMicrosoftLogin.rejected, (s, a) => {
         s.status = statusEnum.Failed;

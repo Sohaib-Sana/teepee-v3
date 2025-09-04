@@ -11,7 +11,7 @@ export default function AppLayout() {
   return (
     <div className="flex h-screen flex-col">
       <Header onMenuClick={toggleSidebar} />
-      <div className="flex flex-1 pt-16">
+      <div className="flex flex-1 pt-16 overflow-hidden">
         <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
         <main className="flex-1 p-4 overflow-y-auto">
           <Outlet />

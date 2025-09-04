@@ -13,7 +13,7 @@ export default function Sidebar({ isOpen, onToggle }) {
   return (
     <>
       <aside
-        className={`fixed top-14 left-0 h-full bg-gray-800 text-white transform
+        className={`fixed top-14 left-0 h-full bg-white text-[#49454F]/90 transform
   ${isOpen ? "translate-x-0 w-64" : "-translate-x-full w-64"}
   transition-transform duration-200 ease-in-out
   lg:translate-x-0 lg:static z-10 flex flex-col`}
@@ -21,12 +21,23 @@ export default function Sidebar({ isOpen, onToggle }) {
         <nav className="p-4 flex flex-col flex-grow">
           <ul className="space-y-2 flex-grow">
             <li>
-              <NavLink to="/" end className={({ isActive }) => `block p-2 rounded ${isActive ? "bg-[#A07BEC]" : "hover:bg-gray-700"}`}>
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) =>
+                  `block p-2 rounded ${isActive ? "bg-[#3B82F6]/10 text-[#3B82F6]" : "hover:bg-[#3882F6]/10 hover:text-[#3B82F6]"}`
+                }
+              >
                 Dashboard
               </NavLink>
             </li>
             <li>
-              <NavLink to="/papers" className={({ isActive }) => `block p-2 rounded ${isActive ? "bg-[#A07BEC]" : "hover:bg-gray-700"}`}>
+              <NavLink
+                to="/papers"
+                className={({ isActive }) =>
+                  `block p-2 rounded ${isActive ? "bg-[#3B82F6]/10 text-[#3B82F6]" : "hover:bg-[#3882F6]/10 hover:text-[#3B82F6]"}`
+                }
+              >
                 Papers
               </NavLink>
             </li>
