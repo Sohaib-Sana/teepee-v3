@@ -113,7 +113,7 @@ const QuizPage = () => {
               ))}
 
               {/* Submit Button */}
-              <button type="submit" className="w-full primary-button py-2 rounded-md hover:bg-blue-100 transition">
+              <button type="submit" className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition">
                 Submit Answers
               </button>
             </Form>
