@@ -15,7 +15,7 @@ const QuizPage = () => {
       api
         .post("/view_quiz", { quiz_id: quizId })
         .then((res) => {
-          console.log("/view_quiz: ", res.data.quiz_data);
+          console.log("/view_quiz: ", res.data);
           setQuizData(res.data.quiz_data);
         })
         .catch((error) => console.error("Error viewing quiz:", error))
@@ -27,7 +27,6 @@ const QuizPage = () => {
 
   const handleQuizSubmit = async (values) => {
     try {
-      console.log("Submitting answers:", values);
       const updatedQuestions = quizData.questions.map((ques) => ({
         ...ques,
         answer: values.answers[ques.question_id] || "", // new key for each question
@@ -36,14 +35,16 @@ const QuizPage = () => {
         ...prev,
         questions: updatedQuestions,
       }));
+      console.log("Submitting answers:", updatedQuestions);
       api
         .post("/submit_quiz", {
           student_name: values.studentName,
           quiz_id: quizId,
           student_question_list: updatedQuestions,
+          paper_source_text: quizData.quiz.paper_source_text,
         })
         .then((res) => {
-          setQuizResponse(res.data.student_question_list);
+          setQuizResponse({ quizResponse: res.data.student_question_list, studentName: values.studentName, marksAchieved: res.data.obtained_marks });
           console.log(res.data);
         })
         .catch((error) => console.error("Error submitting quiz:", error));
@@ -55,7 +56,7 @@ const QuizPage = () => {
 
   if (loading) return <p className="text-center mt-10">Loading quiz...</p>;
   if (!quizData) return <p className="text-center mt-10">No quiz found.</p>;
-  if (quizResponse) return <QuizResponse responseData={quizResponse} />;
+  //   if (quizResponse) return <QuizResponse responseData={quizResponse} />;
 
   return (
     <div className="min-h-screen bg-gray-100 py-10">
@@ -64,7 +65,7 @@ const QuizPage = () => {
         <h1 className="text-lg font-semibold text-center mb-6">Task Name: {quizData.quiz.quiz_name}</h1>
 
         <Formik initialValues={{ studentName: "", answers: {} }} onSubmit={handleQuizSubmit}>
-          {({ setFieldValue }) => (
+          {({ isSubmitting }) => (
             <Form className="space-y-8">
               {/* Student Name + Source Button */}
               <div className="flex justify-between items-center">
@@ -114,7 +115,7 @@ const QuizPage = () => {
 
               {/* Submit Button */}
               <button type="submit" className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition">
-                Submit Answers
+                {isSubmitting ? "Submitting..." : "Submit Answers"}
               </button>
             </Form>
           )}

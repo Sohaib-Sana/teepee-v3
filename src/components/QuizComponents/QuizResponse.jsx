@@ -1,6 +1,7 @@
 import React from "react";
 
 const QuizResponse = ({ responseData }) => {
+  console.log("RESPONSE DATA: ", responseData);
   if (!responseData) {
     return <p className="text-center mt-10">No response found.</p>;
   }
@@ -9,7 +10,7 @@ const QuizResponse = ({ responseData }) => {
     <div className="min-h-screen bg-gray-100 py-10">
       <div className="max-w-7xl mx-auto bg-white shadow-sm rounded-md p-8">
         {/* Header */}
-        <h1 className="text-lg font-semibold text-center mb-6">Task Name: {responseData.quiz.quiz_name}</h1>
+        {/* <h1 className="text-lg font-semibold text-center mb-6">Task Name: {responseData.quiz.quiz_name}</h1> */}
 
         <div className="space-y-8">
           {/* Student Info */}
