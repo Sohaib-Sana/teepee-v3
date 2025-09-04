@@ -33,9 +33,8 @@ pipeline {
           sh ' ssh billy-240 mkdir -p /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' scp build_staging.zip billy-240:/home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' ssh billy-240 unzip /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/build_staging.zip -d /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
-          sh ' ssh billy-240 rm -rf /var/www/pb.teepee-v3-web-staging.com/html/*'
-          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/* /var/www/pb.teepee-v3-web-staging.com/html'
-          sh ' ssh billy-240 cp -r /var/www/pb.teepee-v3-web-staging.com/html/dist/* /var/www/pb.teepee-v3-web-staging.com/html'
+          sh ' ssh billy-240 rm -rf /var/www/pb.teepee-v3-web-production.com/html/*'
+          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3/$(date +"%Y%m%d")_$BUILD_NUMBER/release/* /var/www/pb.teepee-v3-web-production.com/html'
           
            }
         }
@@ -58,13 +57,12 @@ pipeline {
         }
         steps{
             script{
-          //sh ' ping 172.172.1.42 -c 30;exit 0 '
           sh ' ssh billy-240 mkdir -p /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/'
           sh ' ssh billy-240 mkdir -p /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' scp build_prod.zip billy-240:/home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' ssh billy-240 unzip /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/build_prod.zip -d /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/'
           sh ' ssh billy-240 rm -rf /var/www/pb.aiteepeewebproduction.com/html/*'
-          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/build/* /var/www/pb.aiteepeewebproduction.com/html/'
+          sh ' ssh billy-240 cp -r /home/serveradmin/backup/teepee-v3_production/$(date +"%Y%m%d")_$BUILD_NUMBER/release/* /var/www/pb.aiteepeewebproduction.com/html/'
            }
         }
       } 
@@ -80,4 +78,5 @@ pipeline {
     }
   }
 }
+
 
