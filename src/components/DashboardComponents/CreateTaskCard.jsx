@@ -30,7 +30,7 @@ function CreateTaskCard() {
         </div>
 
         <p className="text-gray-600 mb-6">
-          Set practice tasks for your students in just a few clicks. Sila takes care of marking and tracking automatically.
+          Set practice tasks for your students in just a few clicks. Huxley takes care of marking and tracking automatically.
         </p>
 
         <button className="px-4 py-2 primary-button " onClick={handleCreateTask}>

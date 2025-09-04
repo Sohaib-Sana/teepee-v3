@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function ShareDialog({ onClose, quizLink }) {
-  const [link] = useState(`${import.meta.env.VITE_BASE_URL + "/quiz/" + quizLink}`);
+  const [link] = useState(`${import.meta.env.VITE_URL + "/quiz/" + quizLink}`);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(link);

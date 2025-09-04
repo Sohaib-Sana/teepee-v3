@@ -64,7 +64,7 @@ function TaskSetupForm({ paperList, handleGenerateTask }) {
 
             {/* Feedback Choice */}
             <div className="form-group">
-              <label className="form-label block mb-2">Choose how Teepee shares feedback: </label>
+              <label className="form-label block mb-2">Choose how Huxley shares feedback: </label>
               <p className="text-gray-600 text-sm mb-3">Review it first (Human-in-the-loop) or send directly to students instantly.</p>
 
               <div className="space-y-2">

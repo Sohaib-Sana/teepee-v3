@@ -6,7 +6,7 @@ export default function Header({ onMenuClick }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
-      <h1 className="text-lg font-bold">TEEPEE V3</h1>
+      <h1 className="text-lg font-bold">Huxley</h1>
     </header>
   );
 }

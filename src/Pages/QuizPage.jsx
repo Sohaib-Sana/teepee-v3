@@ -117,6 +117,11 @@ const QuizPage = () => {
                     rows={3}
                     className="w-full border rounded-md px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-300"
                   />
+                  {ques.image && (
+                    <div className="mt-3 flex justify-center">
+                      <img src={`${ques.image}`} alt={`Question ${index + 1} illustration`} className="max-h-64 object-contain rounded shadow" />
+                    </div>
+                  )}
                 </div>
               ))}
 
