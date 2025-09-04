@@ -4,8 +4,10 @@ import { api } from "../../utils/api";
 export const emailLogin = createAsyncThunk("auth/emailLogin", async ({ email, password }) => {
   try {
     const response = await api.post("/login", { email, password });
+    console.log("SADA LOGIN RESPONSE: ", response);
     const { access_token, subject_id } = response.data;
-    return { user: { subjectId: subject_id }, access_token };
+    console.log("ACCESS_TOKEN: ", access_token, "SUBJECT_ID: ", subject_id);
+    return { user: { subjectId: subject_id }, token: access_token };
   } catch (error) {
     console.error("Error in email Login:", error);
     return rejectWithValue(error.response?.data?.message || "Failed to login user by email");
@@ -21,7 +23,7 @@ export const registerUser = createAsyncThunk("auth/registerUser", async ({ usern
     });
 
     const { access_token, subject_id } = response.data;
-    return { user: { subjectId: subject_id }, access_token };
+    return { user: { subjectId: subject_id }, token: access_token };
   } catch (error) {
     console.error("Error creating new user by OTP:", error);
     return rejectWithValue(error.response?.data?.message || "Failed to register user");
@@ -32,7 +34,7 @@ export const googleOrMicrosoftLogin = createAsyncThunk("auth/googleOrMicrosoftLo
   try {
     const response = await api.post("/login_with_google_or_ms_verified_email", { email, auth_type: authType, name });
     const { access_token, subject_id } = response.data;
-    return { user: { subjectId: subject_id }, access_token };
+    return { user: { subjectId: subject_id }, token: access_token };
   } catch (error) {
     console.error("Error in Microsoft Login:", error);
     return rejectWithValue(error.response?.data?.message || "Failed to login user by email");

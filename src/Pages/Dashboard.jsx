@@ -4,7 +4,7 @@ import CreateTaskCard from "../components/DashboardComponents/CreateTaskCard";
 import MyTasks from "../components/DashboardComponents/MyTasks";
 function Dashboard() {
   const user = useSelector((state) => state.auth.user);
-  const subjectId = user.subjectId;
+  const subjectId = user?.subjectId;
 
   return !subjectId ? (
     <SelectInitialSubject dispatch />

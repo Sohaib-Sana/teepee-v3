@@ -11,7 +11,8 @@ function SignupForm() {
 
   const handleSubmit = async (values) => {
     const resultAction = await dispatch(registerUser(values));
-    if (registerUser.fulfilled.match(resultAction)) {
+    console.log(resultAction);
+    if (registerUser.fulfilled.match(resultAction) && resultAction.payload.token) {
       revalidator.revalidate();
     }
   };

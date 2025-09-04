@@ -12,7 +12,7 @@ function SelectInitialSubject({}) {
     api
       .get("/get_subjects_for_user")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setSubjectList(res.data.subject_list || []);
         // ✅ Auto-select if there's only one subject
         if (res.data.subject_list?.length === 1) {
@@ -44,7 +44,7 @@ function SelectInitialSubject({}) {
         >
           {/* <option value="">Select subject</option> */}
           {subjectList.map((subject) => (
-            <option key={subject.subjectId} value={subject.subjectId}>
+            <option key={subject.subject_id} value={subject.subject_id}>
               {subject.subject_name}
             </option>
           ))}
