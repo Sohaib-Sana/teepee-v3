@@ -1,14 +1,13 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate, useNavigation } from "react-router-dom";
 
 function CreateTaskCard() {
   const navigate = useNavigate();
   const navigation = useNavigation();
-  const isLoading = navigation.state === "loading" && navigation.location?.pathname === "/task-setup";
+  const isLoading = navigation.state === "loading" && navigation.location?.pathname === "/configure-task";
 
   const handleCreateTask = () => {
-    navigate("/task-setup");
+    navigate("/configure-task");
   };
 
   return (

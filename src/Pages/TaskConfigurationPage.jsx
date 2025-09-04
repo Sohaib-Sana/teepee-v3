@@ -4,7 +4,7 @@ import GeneratedQuestions from "../components/DashboardComponents/GeneratedQuest
 import { useLoaderData } from "react-router-dom";
 import ShareDialog from "../components/Dialogues/ShareQuizDialog";
 
-function GeneratePaperPage() {
+function TaskConfigurationPage() {
   const loader = useLoaderData();
   const paperList = useRef(loader?.data?.paper_list || []);
   const [questions, setQuestions] = useState();
@@ -39,4 +39,4 @@ function GeneratePaperPage() {
   );
 }
 
-export default GeneratePaperPage;
+export default TaskConfigurationPage;

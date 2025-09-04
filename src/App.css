@@ -33,7 +33,7 @@
 /* ---------- Form layout ---------- */
 .form-shell {
   width: 100%;
-  max-width: 560px;
+  max-width: 620px;
   /* gives the wide look from screenshot #1 */
   margin: 0 auto;
   font-family: var(--font-sans);

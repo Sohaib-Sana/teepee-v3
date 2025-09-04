@@ -17,6 +17,7 @@ function Dashboard() {
       {/* Uncomment this div jb koi task Already created nae hai... */}
       {/* <div className="flex items-center justify-center min-h-screen bg-gray-50"> */}
       <CreateTaskCard />
+      <div className="mb-7"></div>
       <MyTasks />
 
       {/* </div> */}

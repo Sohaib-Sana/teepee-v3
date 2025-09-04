@@ -189,11 +189,21 @@ export const handleProcessThreePDFs = (questionFile, marksheetFile, sourceFile, 
     });
 };
 
-// Quiz Management Handlers
+// Quiz Related Handlers
 export const handleGetQuizzes = async () => {
   try {
     const res = await api.get("/get_quizzes");
     return res.data.quiz_list; // <-- return the data properly
+  } catch (error) {
+    console.error("Error getting quizzes:", error);
+    return []; // return empty array so mapping doesn't break
+  }
+};
+
+export const handleViewQuiz = async (quizId) => {
+  try {
+    const res = await api.post("/view_quiz", { quiz_id: quizId });
+    return res.data; // <-- return the data properly
   } catch (error) {
     console.error("Error getting quizzes:", error);
     return []; // return empty array so mapping doesn't break

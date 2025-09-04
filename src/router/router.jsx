@@ -7,9 +7,11 @@ import LoginPage from "../Pages/LoginPage";
 import RegisterPage from "../Pages/RegisterPage";
 import ForgotPage from "../Pages/ForgotPage";
 import PapersPage from "../Pages/PapersPage";
-import GeneratePaperPage from "../Pages/GeneratePaperPage";
+import TaskConfigurationPage from "../Pages/TaskConfigurationPage";
 import { api } from "../utils/api";
 import QuizPage from "../Pages/QuizPage";
+import ViewTaskPage from "../Pages/ViewTaskPage";
+import TaskResponsesPage from "../Pages/TaskResponsesPage";
 
 // Protect app (Dashboard)
 async function appGuardLoader() {
@@ -29,7 +31,7 @@ async function authGuardLoader() {
   return null;
 }
 
-// Load Papers before navigating to PaperSetup
+// Load Papers before navigating to TaskConfigurationPage
 async function PapersLoader() {
   const state = localStorage.getItem("persist:auth");
   const parsedState = JSON.parse(state);
@@ -40,6 +42,8 @@ async function PapersLoader() {
   return response;
 }
 
+async function TaskLoader() {}
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -49,9 +53,18 @@ export const router = createBrowserRouter([
       { index: true, element: <Dashboard /> },
       { path: "/papers", element: <PapersPage /> },
       {
-        path: "/task-setup",
-        element: <GeneratePaperPage />,
+        path: "/configure-task",
+        element: <TaskConfigurationPage />,
         loader: PapersLoader,
+      },
+      {
+        path: "/view-task",
+        element: <ViewTaskPage />,
+        loader: TaskLoader,
+      },
+      {
+        path: "/view-task",
+        element: <TaskResponsesPage />,
       },
     ],
   },

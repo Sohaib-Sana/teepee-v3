@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { handleGetQuizzes } from "../../utils/api_handlers";
+import { useNavigate } from "react-router-dom";
 
 function MyTasks() {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuizzes = async () => {
       setLoading(true);
       const data = await handleGetQuizzes();
       setQuizzes(Array.isArray(data) ? data : []);
+      console.log("QUIZZES: ", data);
       setLoading(false);
     };
     fetchQuizzes();
@@ -51,7 +54,14 @@ function MyTasks() {
 
                 {/* Actions */}
                 <div className="flex space-x-4 mt-auto">
-                  <button className="px-4 py-2 border rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition">View Task</button>
+                  <button
+                    className="px-4 py-2 border rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition"
+                    onClick={() => {
+                      navigate("/view-task");
+                    }}
+                  >
+                    View Task
+                  </button>
                   <button className="px-4 py-2 rounded-lg text-sm text-white bg-[#3B82F6] hover:bg-blue-600 transition">View Result</button>
                 </div>
               </div>

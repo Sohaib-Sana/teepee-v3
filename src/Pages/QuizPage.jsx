@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { api } from "../utils/api";
 import QuizResponse from "../components/QuizComponents/QuizResponse";
+import { handleViewQuiz } from "../utils/api_handlers";
 
 const QuizPage = () => {
   const { quizId } = useParams();
@@ -12,16 +13,10 @@ const QuizPage = () => {
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      try {
-        const res = await api.post("/view_quiz", { quiz_id: quizId });
-        setQuizData(res.data.quiz_data);
-      } catch (error) {
-        console.error("Error viewing quiz:", error);
-      } finally {
-        setLoading(false);
-      }
+      const viewQuizDataResponse = await handleViewQuiz(quizId);
+      setQuizData(viewQuizDataResponse.quiz_data);
+      setLoading(false);
     };
-
     fetchQuiz();
   }, [quizId]);
 
@@ -81,12 +76,14 @@ const QuizPage = () => {
                   <Field
                     name="studentName"
                     placeholder=""
-                    className="w-full border-b border-gray-400 focus:outline-none focus:border-blue-500 px-1 py-2"
+                    disabled={isSubmitting}
+                    className="w-full border-b border-gray-400 focus:outline-none focus:border-blue-500 px-1 py-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                 </div>
                 <button
                   type="button"
-                  className="ml-4 bg-blue-50 border border-blue-300 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-100 transition"
+                  disabled={isSubmitting}
+                  className="ml-4 bg-blue-50 border border-blue-300 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   View Source Text
                 </button>
@@ -115,7 +112,8 @@ const QuizPage = () => {
                     name={`answers.${ques.question_id}`}
                     placeholder="Type your answer here..."
                     rows={3}
-                    className="w-full border rounded-md px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-300"
+                    disabled={isSubmitting}
+                    className="w-full border rounded-md px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   {ques.image && (
                     <div className="mt-3 flex justify-center">
@@ -126,7 +124,11 @@ const QuizPage = () => {
               ))}
 
               {/* Submit Button */}
-              <button type="submit" className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition" disabled={isSubmitting}>
+              <button
+                type="submit"
+                className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? "Submitting..." : "Submit Answers"}
               </button>
             </Form>
