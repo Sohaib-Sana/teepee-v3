@@ -1,8 +1,9 @@
 import React from "react";
 import { api } from "../../utils/api";
 
-function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen, setQuizLink }) {
+function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen, setQuizLink, readOnly = false }) {
   console.log("QUESTIONS: ", questions);
+
   const handleShare = (paperId, quizName, humanInLoop) => {
     const quizMarks = questions.reduce((sum, q) => sum + parseInt(q.marks, 10), 0);
     const questionIdsCsv = questions.map((q) => q.question_id).join(",");
@@ -16,14 +17,14 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
         question_ids_csv: questionIdsCsv,
       })
       .then((res) => {
-        setQuizLink(res.data.quiz_id);
-        setDialogOpen(true);
+        setQuizLink?.(res.data.quiz_id);
+        setDialogOpen?.(true);
       })
       .catch((error) => console.error("Error creating quiz:", error));
   };
 
   const handleRemove = (id) => {
-    setQuestions((prev) => prev.filter((ques) => ques.question_id !== id));
+    setQuestions?.((prev) => prev.filter((ques) => ques.question_id !== id));
   };
 
   return (
@@ -55,30 +56,32 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
             </div>
 
             {/* Remove button */}
-            <div className="flex justify-end mt-2">
-              <button
-                type="button"
-                onClick={() => handleRemove(ques.question_id)}
-                className="btn-secondary text-[red]/70 hover:text-[red] text-[0.75rem] flex items-center gap-1"
-              >
-                ✕ Remove
-              </button>
-            </div>
+            {!readOnly && (
+              <div className="flex justify-end mt-2">
+                <button
+                  type="button"
+                  onClick={() => handleRemove(ques.question_id)}
+                  className="btn-secondary text-[red]/70 hover:text-[red] text-[0.75rem] flex items-center gap-1"
+                >
+                  ✕ Remove
+                </button>
+              </div>
+            )}
 
             <hr className="mt-4" />
           </div>
         ))}
 
         {/* Share Button */}
-        <button
-          type="button"
-          onClick={() => {
-            handleShare(taskConfig.paperId, taskConfig.quizName, taskConfig.humanInLoop);
-          }}
-          className="btn btn-primary btn-block"
-        >
-          Share Paper
-        </button>
+        {!readOnly && (
+          <button
+            type="button"
+            onClick={() => handleShare(taskConfig.paperId, taskConfig.quizName, taskConfig.humanInLoop)}
+            className="btn btn-primary btn-block"
+          >
+            Share Paper
+          </button>
+        )}
       </div>
     </div>
   );

@@ -33,7 +33,7 @@
 /* ---------- Form layout ---------- */
 .form-shell {
   width: 100%;
-  max-width: 560px;
+  max-width: 620px;
   /* gives the wide look from screenshot #1 */
   margin: 0 auto;
   font-family: var(--font-sans);
@@ -215,6 +215,12 @@ input::placeholder {
   text-align: center;
   background-color: #A07BEC ;
   color: #ffffff;
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  /* background-color: #ffffff8f ; */
 }
 
 /* -------------------------- TEEPEE AUTH PAGE ---------------------------- */

@@ -19,7 +19,7 @@ function LoginOptions({ onEmail }) {
 
         dispatch(setUser({ email: email, name: name }));
         const resultAction = await dispatch(googleOrMicrosoftLogin({ name, authType: 2, email }));
-        if (googleOrMicrosoftLogin.fulfilled.match(resultAction)) {
+        if (googleOrMicrosoftLogin.fulfilled.match(resultAction) && resultAction.payload.token) {
           revalidator.revalidate();
         }
       });
@@ -38,7 +38,7 @@ function LoginOptions({ onEmail }) {
         const name = res.account.name;
         const email = res.account.username;
         const resultAction = await dispatch(googleOrMicrosoftLogin({ name, authType: 3, email }));
-        if (googleOrMicrosoftLogin.fulfilled.match(resultAction)) {
+        if (googleOrMicrosoftLogin.fulfilled.match(resultAction) && resultAction.payload.token) {
           revalidator.revalidate();
         }
       })

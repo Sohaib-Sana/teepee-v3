@@ -3,60 +3,62 @@ import { useParams } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { api } from "../utils/api";
 import QuizResponse from "../components/QuizComponents/QuizResponse";
+import { handleViewQuiz } from "../utils/api_handlers";
 
 const QuizPage = () => {
   const { quizId } = useParams();
   const [quizData, setQuizData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [quizResponse, setQuizResponse] = useState();
+  const [quizResponse, setQuizResponse] = useState(null);
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      api
-        .post("/view_quiz", { quiz_id: quizId })
-        .then((res) => {
-          console.log("/view_quiz: ", res.data);
-          setQuizData(res.data.quiz_data);
-        })
-        .catch((error) => console.error("Error viewing quiz:", error))
-        .finally(() => setLoading(false));
+      const viewQuizDataResponse = await handleViewQuiz(quizId);
+      setQuizData(viewQuizDataResponse.quiz_data);
+      setLoading(false);
     };
-
     fetchQuiz();
   }, [quizId]);
 
-  const handleQuizSubmit = async (values) => {
+  const handleQuizSubmit = async (values, { setSubmitting }) => {
     try {
       const updatedQuestions = quizData.questions.map((ques) => ({
         ...ques,
-        answer: values.answers[ques.question_id] || "", // new key for each question
+        answer: values.answers[ques.question_id] || "null",
       }));
+
       setQuizData((prev) => ({
         ...prev,
         questions: updatedQuestions,
       }));
-      console.log("Submitting answers:", updatedQuestions);
-      api
-        .post("/submit_quiz", {
-          student_name: values.studentName,
-          quiz_id: quizId,
-          student_question_list: updatedQuestions,
-          paper_source_text: quizData.quiz.paper_source_text,
-        })
-        .then((res) => {
-          setQuizResponse({ quizResponse: res.data.student_question_list, studentName: values.studentName, marksAchieved: res.data.obtained_marks });
-          console.log(res.data);
-        })
-        .catch((error) => console.error("Error submitting quiz:", error));
+
+      const res = await api.post("/submit_quiz", {
+        student_name: values.studentName,
+        quiz_id: quizId,
+        student_question_list: updatedQuestions,
+        paper_source_text: quizData.quiz.paper_source_text,
+      });
+
+      setQuizResponse({
+        quiz: quizData.quiz,
+        student_name: values.studentName,
+        obtained_marks: res.data.obtained_marks,
+        obtained_feedback: res.data.obtained_feedback,
+        questions: res.data.student_question_list,
+      });
     } catch (err) {
       console.error("Error submitting quiz:", err);
       alert("Something went wrong!");
+    } finally {
+      setSubmitting(false); // always reset submitting state
     }
   };
 
   if (loading) return <p className="text-center mt-10">Loading quiz...</p>;
   if (!quizData) return <p className="text-center mt-10">No quiz found.</p>;
-  //   if (quizResponse) return <QuizResponse responseData={quizResponse} />;
+
+  // ✅ Show QuizResponse immediately after submission
+  if (quizResponse) return <QuizResponse responseData={quizResponse} />;
 
   return (
     <div className="min-h-screen bg-gray-100 py-10">
@@ -74,12 +76,14 @@ const QuizPage = () => {
                   <Field
                     name="studentName"
                     placeholder=""
-                    className="w-full border-b border-gray-400 focus:outline-none focus:border-blue-500 px-1 py-2"
+                    disabled={isSubmitting}
+                    className="w-full border-b border-gray-400 focus:outline-none focus:border-blue-500 px-1 py-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                 </div>
                 <button
                   type="button"
-                  className="ml-4 bg-blue-50 border border-blue-300 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-100 transition"
+                  disabled={isSubmitting}
+                  className="ml-4 bg-blue-50 border border-blue-300 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   View Source Text
                 </button>
@@ -100,7 +104,7 @@ const QuizPage = () => {
                           </p>
                         ))}
                     </label>
-                    <span className="text-blue-700 text-sm font-medium whitespace-nowrap flex-none min-w-[60px] text-right">{ques.marks} Marks</span>
+                    <span className="text-blue-700 text-sm font-medium text-right w-20 shrink-0">{ques.marks} Marks</span>
                   </div>
 
                   <Field
@@ -108,13 +112,23 @@ const QuizPage = () => {
                     name={`answers.${ques.question_id}`}
                     placeholder="Type your answer here..."
                     rows={3}
-                    className="w-full border rounded-md px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-300"
+                    disabled={isSubmitting}
+                    className="w-full border rounded-md px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
+                  {ques.image && (
+                    <div className="mt-3 flex justify-center">
+                      <img src={`${ques.image}`} alt={`Question ${index + 1} illustration`} className="max-h-64 object-contain rounded shadow" />
+                    </div>
+                  )}
                 </div>
               ))}
 
               {/* Submit Button */}
-              <button type="submit" className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition">
+              <button
+                type="submit"
+                className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? "Submitting..." : "Submit Answers"}
               </button>
             </Form>
