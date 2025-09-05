@@ -68,8 +68,8 @@ const authSlice = createSlice({
       })
       .addCase(googleOrMicrosoftLogin.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        s.token = a.payload.access_token;
-        setToken(a.payload.access_token);
+        s.token = a.payload.token;
+        setToken(a.payload.token);
         s.user = {
           ...s.user,
           ...a.payload.user,

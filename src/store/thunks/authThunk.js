@@ -34,6 +34,7 @@ export const registerUser = createAsyncThunk("auth/registerUser", async ({ usern
 export const googleOrMicrosoftLogin = createAsyncThunk("auth/googleOrMicrosoftLogin", async ({ email, authType, name }) => {
   try {
     const response = await api.post("/login_with_google_or_ms_verified_email", { email, auth_type: authType, name });
+    console.log("RESPONSE: ", response);
     const { access_token, subject_id } = response.data;
     return { user: { subjectId: subject_id }, token: access_token };
   } catch (error) {

@@ -45,6 +45,31 @@ function LoginOptions({ onEmail }) {
       .catch((e) => console.error(e));
   };
 
+  // const handleMicrosoftLogin = () => {
+  //   instance
+  //     .loginPopup(loginRequest)
+  //     .then(async (res) => {
+  //       console.log("MSAL response:", res);
+
+  //       const account = res.account || instance.getAllAccounts()[0];
+  //       if (!account) {
+  //         throw new Error("No account returned from MS login");
+  //       }
+
+  //       const name = account.name;
+  //       const email = account.username;
+
+  //       const resultAction = await dispatch(googleOrMicrosoftLogin({ name, authType: 3, email }));
+
+  //       if (googleOrMicrosoftLogin.fulfilled.match(resultAction) && resultAction.payload.token) {
+  //         revalidator.revalidate();
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       console.error("MS Login Error:", e);
+  //     });
+  // };
+
   // const handleLogout = () => {
   //   instance.logoutPopup().catch((e) => console.error(e));
   // };
