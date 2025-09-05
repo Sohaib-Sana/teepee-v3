@@ -18,10 +18,10 @@ function UserRoleSelection() {
   return (
     <div className="w-full max-w-md p-6 flex flex-col items-center">
       {/* Logo */}
-      <img src={TeepeeIcon} alt="Teepee logo" className="w-20 h-20 mb-3" />
+      <img src={TeepeeIcon} alt="Huxley logo" className="w-20 h-20 mb-3" />
       {/* Heading */}
       <div className="sign-in-label mb-[20px]">
-        <p>Join Teepee as a</p>{" "}
+        <p>Join Huxley as a</p>{" "}
       </div>
       {/* Role Selection */}
       <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-12 mb-6">

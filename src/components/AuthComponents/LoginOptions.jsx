@@ -52,7 +52,7 @@ function LoginOptions({ onEmail }) {
   return (
     <div className="form-shell">
       <div className="login-options my-10">
-        Choose how would you like to sign in your<br></br> Teepee.ai account
+        Choose how would you like to sign in your<br></br> Huxley account
       </div>
       <div className="space-y-4">
         <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50" onClick={() => googleLogin()}>

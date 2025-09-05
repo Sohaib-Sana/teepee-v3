@@ -39,6 +39,7 @@ async function PapersLoader() {
 
   const subjectId = user?.subjectId;
   const response = await api.post("/get_papers", { subject_id: subjectId }).catch((error) => console.error("Error getting papers:", error));
+  console.log("PAPERS: ", response);
   return response;
 }
 
@@ -63,7 +64,7 @@ export const router = createBrowserRouter([
         loader: TaskLoader,
       },
       {
-        path: "/view-task",
+        path: "/view-task-responses",
         element: <TaskResponsesPage />,
       },
     ],
