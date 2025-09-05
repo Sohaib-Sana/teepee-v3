@@ -121,6 +121,11 @@ const QuizPage = () => {
                     </label>
                     <span className="text-[#3B82F6] text-sm font-medium text-right w-20 shrink-0">{ques.marks} Marks</span>
                   </div>
+                  {ques.image && (
+                    <div className="mt-3 flex justify-center">
+                      <img src={`${ques.image}`} alt={`Question ${index + 1} illustration`} className="max-h-64 rounded shadow" />
+                    </div>
+                  )}
 
                   <Field
                     as="textarea"
@@ -130,11 +135,6 @@ const QuizPage = () => {
                     disabled={isSubmitting}
                     className="w-full border rounded-md px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
-                  {ques.image && (
-                    <div className="mt-3 flex justify-center">
-                      <img src={`${ques.image}`} alt={`Question ${index + 1} illustration`} className="max-h-64 object-contain rounded shadow" />
-                    </div>
-                  )}
                 </div>
               ))}
 

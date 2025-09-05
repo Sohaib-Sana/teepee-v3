@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import TaskSetupForm from "../components/DashboardComponents/TaskSetupForm";
 import GeneratedQuestions from "../components/DashboardComponents/GeneratedQuestions";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useLocation } from "react-router-dom";
 import { handleViewQuiz } from "../utils/api_handlers";
 import ShareDialog from "../components/Dialogues/ShareQuizDialog";
 
 function ViewTaskPage() {
   const loader = useLoaderData();
+  const location = useLocation();
   const paperList = useRef(loader?.data?.paper_list || []);
   const [questions, setQuestions] = useState();
   const [taskConfig, setTaskConfig] = useState();
@@ -15,9 +16,9 @@ function ViewTaskPage() {
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      const viewQuizDataResponse = await handleViewQuiz(15);
+      console.log(location.state);
+      const viewQuizDataResponse = await handleViewQuiz(location.state.quizId);
       const quiz = viewQuizDataResponse.quiz_data.quiz;
-      console.log("viewQuizDataResponse: ", viewQuizDataResponse);
 
       const tempTask = {
         quizName: quiz.quiz_name,

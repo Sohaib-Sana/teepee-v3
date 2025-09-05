@@ -22,8 +22,9 @@ export const registerUser = createAsyncThunk("auth/registerUser", async ({ usern
       name: username,
     });
 
-    const { access_token, subject_id } = response.data;
-    return { user: { subjectId: subject_id }, token: access_token };
+    const { msg, new_user } = response.data;
+    console.log("RESPONSE DATA: ", response.data);
+    return { msg, new_user };
   } catch (error) {
     console.error("Error creating new user by OTP:", error);
     return rejectWithValue(error.response?.data?.message || "Failed to register user");

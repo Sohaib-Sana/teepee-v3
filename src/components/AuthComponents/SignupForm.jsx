@@ -11,10 +11,10 @@ function SignupForm() {
 
   const handleSubmit = async (values) => {
     const resultAction = await dispatch(registerUser(values));
-    console.log(resultAction);
-    if (registerUser.fulfilled.match(resultAction) && resultAction.payload.token) {
-      revalidator.revalidate();
-    }
+    console.log("RESULT ACTION: ", resultAction);
+    // if (registerUser.fulfilled.match(resultAction) && resultAction.payload.token) {
+    //   revalidator.revalidate();
+    // }
   };
 
   return (
