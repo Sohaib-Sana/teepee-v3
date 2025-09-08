@@ -61,7 +61,14 @@ function MyTasks() {
                   >
                     View Task
                   </button>
-                  <button className="px-4 py-2 rounded-lg text-sm text-white bg-[#3B82F6] hover:bg-blue-600 transition">View Result</button>
+                  <button
+                    className="px-4 py-2 rounded-lg text-sm text-white bg-[#3B82F6] hover:bg-blue-600 transition"
+                    onClick={() => {
+                      navigate("/view-result", { state: { quizId: quiz.quiz_id } });
+                    }}
+                  >
+                    View Result
+                  </button>
                 </div>
               </div>
             );
