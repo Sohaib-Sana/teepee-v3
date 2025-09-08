@@ -7,5 +7,5 @@ export const msalConfig = {
 };
 
 export const loginRequest = {
-  scopes: ["email", "openid", "profile"], // 👈 recommended: include openid & profile
+  scopes: ["email", "openid", "profile"],
 };
