@@ -3,13 +3,14 @@ import getToken, { removeToken, setToken } from "../../utils/token_helper";
 import { emailLogin, googleOrMicrosoftLogin, registerUser, resetPassword, sendForgotEmail, verifyOtp } from "../thunks/authThunk";
 
 export const statusEnum = { Idle: "idle", Loading: "loading", Succeeded: "succeeded", Failed: "failed" };
+export const OTPEnum = { Idle: "idle", Sent: "sent", Valid: "valid", Invalid: "invalid" };
 
 const initialState = {
-  isAuthenticated: false,
   user: null, // { id, name, email, role, subjectId } | null
   token: getToken(), // JWT token | null
   status: statusEnum.Idle, // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
+  otpStatus: OTPEnum.Idle,
 };
 
 const authSlice = createSlice({
@@ -25,7 +26,6 @@ const authSlice = createSlice({
     addToken: (state, action) => {
       setToken(action.payload);
       state.token = action.payload;
-      state.isAuthenticated = true;
     },
     logout: (_) => {
       removeToken();
@@ -53,11 +53,43 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        s.token = a.payload.access_token;
-        setToken(a.payload.access_token);
-        s.user = a.payload.user;
+        s.otpStatus = OTPEnum.Sent;
       })
       .addCase(registerUser.rejected, (s, a) => {
+        s.status = statusEnum.Failed;
+        s.error = a.error?.message;
+      })
+
+      .addCase(verifyOtp.pending, (s) => {
+        s.status = statusEnum.Loading;
+        s.error = null;
+      })
+      .addCase(verifyOtp.fulfilled, (s, a) => {
+        s.status = statusEnum.Succeeded;
+        console.log("ACTION PAYLOAD : ", a.payload);
+        if (a.payload.is_valid_otp) {
+          s.token = a.payload.token;
+          setToken(a.payload.token), (s.user = a.payload.user);
+        }
+      })
+      .addCase(verifyOtp.rejected, (s, a) => {
+        s.status = statusEnum.Failed;
+        s.error = a.error?.message;
+      })
+
+      .addCase(sendForgotEmail.pending, (s) => {
+        s.status = statusEnum.Loading;
+        s.error = null;
+      })
+      .addCase(sendForgotEmail.fulfilled, (s, a) => {
+        s.status = statusEnum.Succeeded;
+        console.log("BEFORE CONDITION : ", a.payload.is_account_exist);
+        if (a.payload.is_account_exist) {
+          s.otpStatus = OTPEnum.Sent;
+          console.log("CONDITION MET: ", s.otpStatus);
+        }
+      })
+      .addCase(sendForgotEmail.rejected, (s, a) => {
         s.status = statusEnum.Failed;
         s.error = a.error?.message;
       })
@@ -76,31 +108,6 @@ const authSlice = createSlice({
         };
       })
       .addCase(googleOrMicrosoftLogin.rejected, (s, a) => {
-        s.status = statusEnum.Failed;
-        s.error = a.error?.message;
-      })
-
-      // forgot flow thunks just flip status/error here
-      .addCase(sendForgotEmail.pending, (s) => {
-        s.status = statusEnum.Loading;
-        s.error = null;
-      })
-      .addCase(sendForgotEmail.fulfilled, (s) => {
-        s.status = statusEnum.Succeeded;
-      })
-      .addCase(sendForgotEmail.rejected, (s, a) => {
-        s.status = statusEnum.Failed;
-        s.error = a.error?.message;
-      })
-
-      .addCase(verifyOtp.pending, (s) => {
-        s.status = statusEnum.Loading;
-        s.error = null;
-      })
-      .addCase(verifyOtp.fulfilled, (s) => {
-        s.status = statusEnum.Succeeded;
-      })
-      .addCase(verifyOtp.rejected, (s, a) => {
         s.status = statusEnum.Failed;
         s.error = a.error?.message;
       })

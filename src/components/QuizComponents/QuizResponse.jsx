@@ -9,30 +9,69 @@ const QuizResponse = ({ responseData }) => {
   }
 
   const handleDownload = () => {
+    // Add print styles
+    const printStyles = document.createElement("style");
+    printStyles.innerHTML = `
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #pdf-content, #pdf-content * {
+          visibility: visible;
+        }
+        #pdf-content {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .min-h-screen {
+          min-height: auto !important;
+        }
+        .py-10 {
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+        }
+        img {
+          max-width: 100% !important;
+          height: auto !important;
+          page-break-inside: avoid;
+        }
+        .space-y-4 > div {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        hr {
+          page-break-after: avoid;
+        }
+      }
+    `;
+    document.head.appendChild(printStyles);
+
+    // Add ID to the PDF content for targeting
     const element = pdfRef.current;
-    console.log("PDF element:", element); // debug
+    element.id = "pdf-content";
 
-    const opt = {
-      margin: 0.5,
-      filename: `${responseData.student_name}_feedback.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-    };
+    // Trigger print dialog
+    setTimeout(() => {
+      window.print();
 
-    // html2pdf(element, opt);
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save()
-      .catch((err) => console.error("PDF generation failed:", err));
+      // Clean up after print dialog closes
+      setTimeout(() => {
+        document.head.removeChild(printStyles);
+        element.removeAttribute("id");
+      }, 1000);
+    }, 100);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 py-10">
       <div className="max-w-7xl bg-white mx-auto shadow-sm rounded-md p-8">
         {/* Button outside the PDF ref */}
-        <div className="flex justify-end mb-4">
+        <div className="no-print flex justify-end mb-4">
           <button onClick={handleDownload} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition text-sm">
             Download PDF
           </button>
@@ -83,7 +122,7 @@ const QuizResponse = ({ responseData }) => {
                 </div>
 
                 {ques.obtained_feedback && (
-                  <div className="bg-gray-100 border-l-4 border-blue-400 p-3 text-gray-700 text-sm rounded-md">
+                  <div className="bg-gray-100 border-l-4 border-blue-400 p-3 text-gray-700 text-sm rounded-md whitespace-pre-line">
                     <span className="font-semibold text-blue-700">Huxley:</span> {ques.obtained_feedback}
                   </div>
                 )}

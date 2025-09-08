@@ -37,27 +37,23 @@ function ViewQuestionResponsesPage() {
     setEditingQuestion(questionResponse.question_response_id);
     setEditValues({
       obtained_marks: questionResponse.obtained_marks || 0,
-      obtained_feedback: questionResponse.obtained_feedback || ""
+      obtained_feedback: questionResponse.obtained_feedback || "",
     });
   };
 
   const handleSaveEdit = async (questionResponseId) => {
     try {
-      await handleUpdateQuestionResponse(
-        questionResponseId,
-        editValues.obtained_marks,
-        editValues.obtained_feedback
-      );
-      
+      await handleUpdateQuestionResponse(questionResponseId, editValues.obtained_marks, editValues.obtained_feedback);
+
       // Update local state
-      setQuestionResponses(prev => 
-        prev.map(qr => 
-          qr.question_response_id === questionResponseId 
+      setQuestionResponses((prev) =>
+        prev.map((qr) =>
+          qr.question_response_id === questionResponseId
             ? { ...qr, obtained_marks: editValues.obtained_marks, obtained_feedback: editValues.obtained_feedback }
             : qr
         )
       );
-      
+
       setEditingQuestion(null);
       setEditValues({});
     } catch (error) {
@@ -75,131 +71,108 @@ function ViewQuestionResponsesPage() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
-        <button
-          onClick={() => navigate(-1)}
-          className="mb-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 flex items-center"
-        >
+        <button onClick={() => navigate(-1)} className="mb-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 flex items-center">
           ← Back to Results
         </button>
-        <h1 className="text-2xl font-bold text-gray-900">
-          Question Responses - {studentName || "Unknown Student"}
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900">Question Responses - {studentName || "Unknown Student"}</h1>
       </div>
 
       {questionResponses.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
-          No question responses found.
-        </div>
+        <div className="text-center py-8 text-gray-500">No question responses found.</div>
       ) : (
-        <div className="space-y-6">
-          {questionResponses.map((questionResponse, index) => (
-            <div key={questionResponse.question_response_id} className="bg-white shadow-sm rounded-lg p-6 border">
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Question {index + 1}
-                </h3>
-                <p className="text-gray-700 mb-3">
-                  {questionResponse.question || "No question text available"}
-                </p>
-                
-                {/* Question Image */}
-                {questionResponse.image && (
-                  <div className="mb-4">
-                    <img
-                      src={`${questionResponse.image}`}
-                      alt={`Question ${index + 1}`}
-                      className="max-w-full h-auto rounded border"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Student Answer
-                  </label>
-                  <div className="p-3 bg-gray-50 rounded border text-sm">
-                    {questionResponse.answer || "No answer provided"}
-                  </div>
+        <div className="space-y-8">
+          {questionResponses.map((ques, index) => (
+            <div key={ques.question_response_id} className="space-y-4">
+              {/* Question header with marks */}
+              <div className="flex justify-between items-start">
+                <div className="text-gray-800 text-sm">
+                  <span className="font-semibold">Question {index + 1}:</span>
+                  {ques.question
+                    ? ques.question
+                        .replace(/ \n+/g, " ")
+                        .split("\n")
+                        .map((line, i) => (
+                          <p key={i} className="mb-2">
+                            {line}
+                          </p>
+                        ))
+                    : "No question text available"}
                 </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Total Marks
-                  </label>
-                  <div className="p-3 bg-gray-50 rounded border text-sm">
-                    {questionResponse.marks || 0}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Obtained Marks
-                  </label>
-                  {editingQuestion === questionResponse.question_response_id ? (
+                <span className="text-xs text-black font-bold">
+                  {editingQuestion === ques.question_response_id ? (
                     <input
                       type="number"
                       value={editValues.obtained_marks}
-                      onChange={(e) => setEditValues(prev => ({ ...prev, obtained_marks: Number(e.target.value) }))}
-                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      onChange={(e) => setEditValues((prev) => ({ ...prev, obtained_marks: Number(e.target.value) }))}
+                      className="w-16 p-1 border border-gray-300 rounded text-center text-xs"
                       min="0"
-                      max={questionResponse.marks || 100}
+                      max={ques.marks || 100}
                     />
                   ) : (
-                    <div className="p-3 bg-gray-50 rounded border text-sm">
-                      {questionResponse.obtained_marks || 0}
-                    </div>
+                    ques.obtained_marks || 0
                   )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Feedback
-                  </label>
-                  {editingQuestion === questionResponse.question_response_id ? (
-                    <textarea
-                      value={editValues.obtained_feedback}
-                      onChange={(e) => setEditValues(prev => ({ ...prev, obtained_feedback: e.target.value }))}
-                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      rows="3"
-                      placeholder="Enter feedback..."
-                    />
-                  ) : (
-                    <div className="p-3 bg-gray-50 rounded border text-sm min-h-[76px]">
-                      {questionResponse.obtained_feedback || "No feedback provided"}
-                    </div>
-                  )}
-                </div>
+                  /{ques.marks}
+                </span>
               </div>
 
-              <div className="mt-4 flex justify-end space-x-2">
-                {editingQuestion === questionResponse.question_response_id ? (
+              {/* Question Image */}
+              {ques.image && (
+                <div className="mt-3 flex justify-center">
+                  <img src={`${ques.image}`} alt={`Question ${index + 1} illustration`} className="max-h-64 object-contain rounded shadow" />
+                </div>
+              )}
+
+              {/* Student Answer */}
+              <div className="bg-gray-50 rounded-md text-gray-700 text-sm p-3">
+                <span className="font-semibold">Student Answer: </span>
+                {ques.answer || "No answer provided."}
+              </div>
+
+              {/* Feedback (Editable) */}
+              {editingQuestion === ques.question_response_id ? (
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">Feedback:</label>
+                  <textarea
+                    value={editValues.obtained_feedback}
+                    onChange={(e) => setEditValues((prev) => ({ ...prev, obtained_feedback: e.target.value }))}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    rows="3"
+                    placeholder="Enter feedback..."
+                  />
+                </div>
+              ) : (
+                ques.obtained_feedback && (
+                  <div className="bg-gray-100 border-l-4 border-blue-400 p-3 text-gray-700 text-sm rounded-md whitespace-pre-line">
+                    <span className="font-semibold text-blue-700">Huxley:</span> {ques.obtained_feedback}
+                  </div>
+                )
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-2">
+                {editingQuestion === ques.question_response_id ? (
                   <>
                     <button
-                      onClick={() => handleSaveEdit(questionResponse.question_response_id)}
-                      className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                      onClick={() => handleSaveEdit(ques.question_response_id)}
+                      className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition text-sm"
                     >
                       Save
                     </button>
-                    <button
-                      onClick={handleCancelEdit}
-                      className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
-                    >
+                    <button onClick={handleCancelEdit} className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition text-sm">
                       Cancel
                     </button>
                   </>
                 ) : (
                   <button
-                    onClick={() => handleEditQuestion(questionResponse)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                    onClick={() => handleEditQuestion(ques)}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm"
                   >
                     Edit Marks & Feedback
                   </button>
                 )}
               </div>
+
+              <hr className="my-4 mb-7" />
             </div>
           ))}
         </div>
