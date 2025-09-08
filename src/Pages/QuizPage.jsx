@@ -4,12 +4,14 @@ import { Formik, Form, Field } from "formik";
 import { api } from "../utils/api";
 import QuizResponse from "../components/QuizComponents/QuizResponse";
 import { handleViewQuiz } from "../utils/api_handlers";
+import SourcePopup from "../components/Dialogues/SourceTextDialog";
 
 const QuizPage = () => {
   const { quizId } = useParams();
   const [quizData, setQuizData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quizResponse, setQuizResponse] = useState(null);
+  const [showSource, setShowSource] = useState(false);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -26,6 +28,7 @@ const QuizPage = () => {
         ...ques,
         answer: values.answers[ques.question_id] || "null",
       }));
+      console.log("UPDATED QUESTIONS: ", updatedQuestions);
 
       setQuizData((prev) => ({
         ...prev,
@@ -39,6 +42,7 @@ const QuizPage = () => {
         paper_source_text: quizData.quiz.paper_source_text,
       });
 
+      console.log("UPDATED RESPONSE: ", res.data);
       setQuizResponse({
         quiz: quizData.quiz,
         student_name: values.studentName,
@@ -53,6 +57,10 @@ const QuizPage = () => {
       setSubmitting(false); // always reset submitting state
     }
   };
+  const handleViewSource = () => {
+    console.log("SOURCE TEXT: ", quizData.quiz);
+    setShowSource(true);
+  };
 
   if (loading) return <p className="text-center mt-10">Loading quiz...</p>;
   if (!quizData) return <p className="text-center mt-10">No quiz found.</p>;
@@ -62,6 +70,10 @@ const QuizPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-10">
+      {showSource && (
+        <SourcePopup heading={quizData.quiz.paper_name || "Source A"} text={quizData.quiz.paper_source_text} onClose={() => setShowSource(false)} />
+      )}
+
       <div className="max-w-7xl mx-auto bg-white shadow-sm rounded-md p-8">
         {/* Header */}
         <h1 className="text-lg font-semibold text-center mb-6">Task Name: {quizData.quiz.quiz_name}</h1>
@@ -77,13 +89,16 @@ const QuizPage = () => {
                     name="studentName"
                     placeholder=""
                     disabled={isSubmitting}
-                    className="w-full border-b border-gray-400 focus:outline-none focus:border-blue-500 px-1 py-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="w-full border-b border-gray-400 focus:outline-none focus:border-[#3B82F6] px-1 py-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                 </div>
                 <button
                   type="button"
                   disabled={isSubmitting}
-                  className="ml-4 bg-blue-50 border border-blue-300 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="ml-4 bg-blue-50 border border-blue-300 text-[#3B82F6] px-4 py-2 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => {
+                    handleViewSource();
+                  }}
                 >
                   View Source Text
                 </button>
@@ -104,8 +119,13 @@ const QuizPage = () => {
                           </p>
                         ))}
                     </label>
-                    <span className="text-blue-700 text-sm font-medium text-right w-20 shrink-0">{ques.marks} Marks</span>
+                    <span className="text-[#3B82F6] text-sm font-medium text-right w-20 shrink-0">{ques.marks} Marks</span>
                   </div>
+                  {ques.image && (
+                    <div className="mt-3 flex justify-center">
+                      <img src={`${ques.image}`} alt={`Question ${index + 1} illustration`} className="max-h-64 rounded shadow" />
+                    </div>
+                  )}
 
                   <Field
                     as="textarea"
@@ -115,11 +135,6 @@ const QuizPage = () => {
                     disabled={isSubmitting}
                     className="w-full border rounded-md px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
-                  {ques.image && (
-                    <div className="mt-3 flex justify-center">
-                      <img src={`${ques.image}`} alt={`Question ${index + 1} illustration`} className="max-h-64 object-contain rounded shadow" />
-                    </div>
-                  )}
                 </div>
               ))}
 

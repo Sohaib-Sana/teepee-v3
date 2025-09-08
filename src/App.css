@@ -15,10 +15,10 @@
   --color-muted: #7e7f86;
   --color-label: #353846;
   --color-border: #8B8B90;
-  --color-link: #A07BEC;
-  --color-primary: #A07BEC;
-  --color-primary-press: #8E66E2;
-  --color-primary-disabled: #C9B6F5;
+  --color-link: #3B82F6;
+  --color-primary: #3B82F6;
+  --color-primary-press: #3B82F6;
+  --color-primary-disabled: rgba(201, 182, 245, 0.691);
   --color-surface: #fff;
 
   --r-md: 8px;
@@ -213,7 +213,16 @@ input::placeholder {
   font-size: 20px;
   line-height: 25px;
   text-align: center;
-  background-color: #A07BEC ;
+  background-color: #3B82F6 ;
+  color: #ffffff;
+}
+.primary-button:hover {
+  font-style: normal;
+  font-weight: 450;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+  background-color: #2e6bcd ;
   color: #ffffff;
 }
 

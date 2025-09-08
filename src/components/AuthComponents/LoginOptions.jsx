@@ -33,26 +33,29 @@ function LoginOptions({ onEmail }) {
   const handleMicrosoftLogin = () => {
     instance
       .loginPopup(loginRequest)
-      .then(async (res) => {
-        console.log("RES: ", res);
+      .then((res) => {
         const name = res.account.name;
         const email = res.account.username;
-        const resultAction = await dispatch(googleOrMicrosoftLogin({ name, authType: 3, email }));
-        if (googleOrMicrosoftLogin.fulfilled.match(resultAction) && resultAction.payload.token) {
-          revalidator.revalidate();
-        }
-      })
-      .catch((e) => console.error(e));
-  };
 
-  // const handleLogout = () => {
-  //   instance.logoutPopup().catch((e) => console.error(e));
-  // };
+        // Wait for redux action to resolve
+        dispatch(googleOrMicrosoftLogin({ name, authType: 3, email }))
+          .unwrap() // 👈 unwrap gives you the actual payload or throws
+          .then((payload) => {
+            if (payload.token) {
+              revalidator.revalidate(); // now it will navigate correctly
+            }
+          })
+          .catch((err) => {
+            console.error("Dispatch error: ", err);
+          });
+      })
+      .catch((e) => console.error("Microsoft login error: ", e));
+  };
 
   return (
     <div className="form-shell">
       <div className="login-options my-10">
-        Choose how would you like to sign in your<br></br> Teepee.ai account
+        Choose how would you like to sign in your<br></br> Huxley account
       </div>
       <div className="space-y-4">
         <button className="w-full border rounded-lg p-3 flex items-center justify-center gap-2 hover:bg-gray-50" onClick={() => googleLogin()}>

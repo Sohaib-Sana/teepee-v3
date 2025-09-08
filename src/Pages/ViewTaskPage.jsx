@@ -1,15 +1,41 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TaskSetupForm from "../components/DashboardComponents/TaskSetupForm";
 import GeneratedQuestions from "../components/DashboardComponents/GeneratedQuestions";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useLocation } from "react-router-dom";
+import { handleViewQuiz } from "../utils/api_handlers";
+import ShareDialog from "../components/Dialogues/ShareQuizDialog";
 
 function ViewTaskPage() {
   const loader = useLoaderData();
+  const location = useLocation();
   const paperList = useRef(loader?.data?.paper_list || []);
-  const { questions, taskConfig } = presetData;
+  const [questions, setQuestions] = useState();
+  const [taskConfig, setTaskConfig] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [quizLink, setQuizLink] = useState("");
+
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      console.log(location.state);
+      const viewQuizDataResponse = await handleViewQuiz(location.state.quizId);
+      const quiz = viewQuizDataResponse.quiz_data.quiz;
+
+      const tempTask = {
+        quizName: quiz.quiz_name,
+        paperId: quiz.paper_id,
+        humanInLoop: quiz.human_in_loop,
+        paperName: quiz.paper_name, // Just for ReadOnly flow
+      };
+      console.log("TEMP TASK", tempTask);
+      setTaskConfig(tempTask);
+      setQuestions(viewQuizDataResponse.quiz_data.questions);
+    };
+    fetchQuiz();
+  }, []);
 
   return (
     <div>
+      {dialogOpen && <ShareDialog onClose={() => setDialogOpen(false)} quizLink={quizLink} />}
       <TaskSetupForm
         paperList={paperList.current}
         taskConfig={taskConfig}
@@ -23,6 +49,8 @@ function ViewTaskPage() {
             questions={questions}
             taskConfig={taskConfig}
             readOnly={true} // no editing options
+            setDialogOpen={setDialogOpen}
+            setQuizLink={setQuizLink}
           />
         </>
       )}

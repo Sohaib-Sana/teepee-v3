@@ -1,3 +1,4 @@
+// ms_auth_config.js
 export const msalConfig = {
   auth: {
     clientId: "8895fb7a-ed22-4edc-aea6-5f701ece5883",
@@ -6,5 +7,5 @@ export const msalConfig = {
 };
 
 export const loginRequest = {
-  scopes: ["email"],
+  scopes: ["email", "openid", "profile"],
 };

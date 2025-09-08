@@ -17,6 +17,7 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
         question_ids_csv: questionIdsCsv,
       })
       .then((res) => {
+        console.log("RESPONSE: ", res.data);
         setQuizLink?.(res.data.quiz_id);
         setDialogOpen?.(true);
       })
@@ -73,15 +74,18 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
         ))}
 
         {/* Share Button */}
-        {!readOnly && (
-          <button
-            type="button"
-            onClick={() => handleShare(taskConfig.paperId, taskConfig.quizName, taskConfig.humanInLoop)}
-            className="btn btn-primary btn-block"
-          >
-            Share Paper
-          </button>
-        )}
+        {/* {!readOnly && ( */}
+        <button
+          type="button"
+          onClick={() => {
+            // console.log(taskConfig.paperId, " ", taskConfig.quizName, " ", taskConfig.humanInLoop);
+            handleShare(taskConfig.paperId, taskConfig.quizName, taskConfig.humanInLoop);
+          }}
+          className="btn btn-primary btn-block"
+        >
+          Share Paper
+        </button>
+        {/* )} */}
       </div>
     </div>
   );

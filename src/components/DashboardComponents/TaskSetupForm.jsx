@@ -48,14 +48,14 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
               <label className="form-label" htmlFor="taskName">
                 1. Name Your Task <span className="text-red-500">*</span>
               </label>
-              {readOnly ? (
+              {/* {readOnly ? (
                 <div className="form-readonly">{initialValues.taskName}</div>
-              ) : (
-                <>
-                  <Field className="form-input" type="text" id="taskName" name="taskName" placeholder="e.g Task 1" />
-                  <ErrorMessage name="taskName" component="div" className="text-red-500 text-sm mt-1" />
-                </>
-              )}
+              ) : ( */}
+              <>
+                <Field className="form-input" type="text" id="taskName" name="taskName" placeholder="e.g Task 1" disabled={readOnly} />
+                <ErrorMessage name="taskName" component="div" className="text-red-500 text-sm mt-1" />
+              </>
+              {/*  )} */}
             </div>
 
             {/* Select Paper */}
@@ -63,21 +63,21 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
               <label className="form-label" htmlFor="paper">
                 2. Select the paper of your choice <span className="text-red-500">*</span>
               </label>
-              {readOnly ? (
+              {/* {readOnly ? (
                 <div className="form-readonly">{paperList.find((p) => p.paper_id === initialValues.paper)?.paper_name || "N/A"}</div>
-              ) : (
-                <>
-                  <Field as="select" className="form-input" id="paper" name="paper">
-                    <option value="">Select Paper</option>
-                    {paperList.map((paper) => (
-                      <option key={paper.paper_id} value={paper.paper_id}>
-                        {paper.paper_name}
-                      </option>
-                    ))}
-                  </Field>
-                  <ErrorMessage name="paper" component="div" className="text-red-500 text-sm mt-1" />
-                </>
-              )}
+              ) : ( */}
+              <>
+                <Field as="select" className="form-input" id="paper" name="paper">
+                  <option value="">{readOnly ? taskConfig?.paperName : "Select Paper"}</option>
+                  {paperList.map((paper) => (
+                    <option key={paper.paper_id} value={paper.paper_id}>
+                      {paper.paper_name}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage name="paper" component="div" className="text-red-500 text-sm mt-1" />
+              </>
+              {/* )} */}
             </div>
 
             {/* Feedback Choice */}
@@ -85,23 +85,23 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
               <label className="form-label block mb-2">Choose how Huxley shares feedback:</label>
               <p className="text-gray-600 text-sm mb-3">Review it first (Human-in-the-loop) or send directly to students instantly.</p>
 
-              {readOnly ? (
+              {/* {readOnly ? (
                 <div className="form-readonly">
                   {initialValues.feedback === "review" ? "Review before sharing (Human-in-the-loop)" : "Share feedback directly with students"}
                 </div>
-              ) : (
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2">
-                    <Field type="radio" name="feedback" value="review" />
-                    <span>Review before sharing (Human-in-the-loop)</span>
-                  </label>
+              ) : ( */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2">
+                  <Field type="radio" name="feedback" value="review" disabled={readOnly} />
+                  <span>Review before sharing (Human-in-the-loop)</span>
+                </label>
 
-                  <label className="flex items-center gap-2">
-                    <Field type="radio" name="feedback" value="direct" />
-                    <span>Share feedback directly with students</span>
-                  </label>
-                </div>
-              )}
+                <label className="flex items-center gap-2">
+                  <Field type="radio" name="feedback" value="direct" />
+                  <span>Share feedback directly with students</span>
+                </label>
+              </div>
+              {/* )} */}
 
               {!readOnly && <ErrorMessage name="feedback" component="div" className="text-red-500 text-sm mt-1" />}
             </div>

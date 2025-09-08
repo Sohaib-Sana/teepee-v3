@@ -6,15 +6,15 @@ export const userRoles = {
 };
 
 export const loginSteps = {
-  OptionsView: 'OptionsView',
-  EmailView: 'EmailView',
-}
+  OptionsView: "OptionsView",
+  EmailView: "EmailView",
+};
 
 export const forgotSteps = {
-  Email: 'Email',
-  OTP: 'OTP',
-  Reset: 'Reset'
-}
+  Email: "Email",
+  OTP: "OTP",
+  Reset: "Reset",
+};
 
 const initialState = {
   authUi: userRoles.Teacher /* null | authUi.Teacher | authUi.Student */,
@@ -31,9 +31,15 @@ const authUiSlice = createSlice({
       state.authUi = action.payload;
       state.roleSelected = true;
     },
-    setAuthView: (state, action)=>{state.authView = action.payload;},
-    setForgotSteps: (state, action)=>{state.forgotSteps = action.payload;},
-    resetAuthUi: (state)=>{state.authView = initialState;},
+    setAuthView: (state, action) => {
+      state.authView = action.payload;
+    },
+    setForgotSteps: (state, action) => {
+      state.forgotSteps = action.payload;
+    },
+    resetAuthUi: (state) => {
+      state.authView = initialState;
+    },
   },
 });
 
