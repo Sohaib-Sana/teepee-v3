@@ -20,7 +20,6 @@ function ViewQuestionResponsesPage() {
       try {
         const data = await handleGetQuestionResponses(quizResponseId);
         setQuestionResponses(Array.isArray(data) ? data : []);
-        console.log("QUESTION RESPONSES: ", data);
       } catch (error) {
         console.error("Error fetching question responses:", error);
         setQuestionResponses([]);

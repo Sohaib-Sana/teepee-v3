@@ -1,15 +1,5 @@
 import { api } from "./api";
 
-export const handleVerifyOTP = (email, oneTimePassword) => {
-  api
-    .post("/verify_otp", {
-      email: email,
-      one_time_password: oneTimePassword,
-    })
-    .then((res) => console.log(res.data))
-    .catch((error) => console.error("Error verifying OTP:", error));
-};
-
 export const handleForgotPasswordRequest = (email) => {
   api
     .post("/forgot_password_request", { email: email })

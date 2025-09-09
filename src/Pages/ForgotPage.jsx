@@ -13,7 +13,6 @@ function ForgotPage() {
   const emailRef = useRef("");
 
   const handleForgotEmail = (values, { isSubmitting }) => {
-    console.log("Forgot Password Submitted:", values);
     emailRef.current = values.email;
     dispatch(sendForgotEmail(values));
   };

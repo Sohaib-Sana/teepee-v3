@@ -12,7 +12,6 @@ function SelectInitialSubject({}) {
     api
       .get("/get_subjects_for_user")
       .then((res) => {
-        // console.log(res.data);
         setSubjectList(res.data.subject_list || []);
         // ✅ Auto-select if there's only one subject
         if (res.data.subject_list?.length === 1) {

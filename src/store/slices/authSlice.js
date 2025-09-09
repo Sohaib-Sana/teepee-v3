@@ -66,7 +66,6 @@ const authSlice = createSlice({
       })
       .addCase(verifyOtp.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        console.log("ACTION PAYLOAD : ", a.payload);
         if (a.payload.is_valid_otp) {
           s.token = a.payload.token;
           setToken(a.payload.token), (s.user = a.payload.user);
@@ -83,10 +82,8 @@ const authSlice = createSlice({
       })
       .addCase(sendForgotEmail.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        console.log("BEFORE CONDITION : ", a.payload.is_account_exist);
         if (a.payload.is_account_exist) {
           s.otpStatus = OTPEnum.Sent;
-          console.log("CONDITION MET: ", s.otpStatus);
         }
       })
       .addCase(sendForgotEmail.rejected, (s, a) => {

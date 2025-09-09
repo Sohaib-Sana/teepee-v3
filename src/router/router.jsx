@@ -41,7 +41,6 @@ async function PapersLoader() {
 
   const subjectId = user?.subjectId;
   const response = await api.post("/get_papers", { subject_id: subjectId }).catch((error) => console.error("Error getting papers:", error));
-  console.log("PAPERS: ", response);
   return response;
 }
 

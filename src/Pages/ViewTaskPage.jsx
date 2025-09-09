@@ -16,7 +16,6 @@ function ViewTaskPage() {
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      console.log(location.state);
       const viewQuizDataResponse = await handleViewQuiz(location.state.quizId);
       const quiz = viewQuizDataResponse.quiz_data.quiz;
 
@@ -26,7 +25,6 @@ function ViewTaskPage() {
         humanInLoop: quiz.human_in_loop,
         paperName: quiz.paper_name, // Just for ReadOnly flow
       };
-      console.log("TEMP TASK", tempTask);
       setTaskConfig(tempTask);
       setQuestions(viewQuizDataResponse.quiz_data.questions);
     };
