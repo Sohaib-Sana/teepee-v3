@@ -12,6 +12,8 @@ import { api } from "../utils/api";
 import QuizPage from "../Pages/QuizPage";
 import ViewTaskPage from "../Pages/ViewTaskPage";
 import TaskResponsesPage from "../Pages/TaskResponsesPage";
+import ViewResultPage from "../Pages/ViewResultPage";
+import ViewQuestionResponsesPage from "../Pages/ViewQuestionResponsesPage";
 
 // Protect app (Dashboard)
 async function appGuardLoader() {
@@ -66,6 +68,14 @@ export const router = createBrowserRouter([
       {
         path: "/view-task-responses",
         element: <TaskResponsesPage />,
+      },
+      {
+        path: "/view-result",
+        element: <ViewResultPage />,
+      },
+      {
+        path: "/view-question-responses",
+        element: <ViewQuestionResponsesPage />,
       },
     ],
   },

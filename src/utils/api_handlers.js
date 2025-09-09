@@ -209,3 +209,32 @@ export const handleViewQuiz = async (quizId) => {
     return []; // return empty array so mapping doesn't break
   }
 };
+
+export const handleGetQuizResponses = async (quizId) => {
+  try {
+    const res = await api.post("/get_quiz_responses", { quiz_id: quizId });
+    return res.data.quiz_response_list; // <-- return the data properly
+  } catch (error) {
+    console.error("Error getting quizzes:", error);
+    return []; // return empty array so mapping doesn't break
+  }
+};
+export const handleGetQuestionResponses = async (quizId) => {
+  try {
+    const res = await api.post("/get_question_responses", { quiz_response_id: quizId });
+    return res.data.quiz_response_list; // <-- return the data properly
+  } catch (error) {
+    console.error("Error getting questions :", error);
+    return []; // return empty array so mapping doesn't break
+  }
+};
+export const handleUpdateQuestionResponse = (question_response_id, obtained_marks, obtained_feedback) => {
+  api
+    .post("/update_question_reponse", {
+      question_response_id: question_response_id,
+      obtained_marks: obtained_marks, // FastAPI expects "question" key
+      obtained_feedback: obtained_feedback, // FastAPI expects "marks" key
+    })
+    .then((res) => console.log(res.data))
+    .catch((error) => console.error("Error updating question response:", error));
+};

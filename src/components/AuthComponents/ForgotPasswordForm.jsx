@@ -1,16 +1,11 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { emailValidation } from "../../utils/validationSchemas";
-import { statusEnum } from "../../store/slices/authSlice";
+import { statusEnum, sendForgotEmail } from "../../store/slices/authSlice";
 import * as Yup from "yup";
 
-function ForgotPasswordForm() {
+function ForgotPasswordForm({ handleForgotEmail }) {
   const status = useSelector((state) => state.auth.status);
-
-  const handleSubmit = (values) => {
-    console.log("Forgot Password Submitted:", values);
-    // Dispatch forgot password action here
-  };
 
   // Schema (modular, but wrapped in Yup.object here)
   const forgotPasswordSchema = Yup.object({
@@ -19,7 +14,7 @@ function ForgotPasswordForm() {
 
   return (
     <div className="form-shell">
-      <Formik initialValues={{ email: "" }} validationSchema={forgotPasswordSchema} onSubmit={handleSubmit}>
+      <Formik initialValues={{ email: "" }} validationSchema={forgotPasswordSchema} onSubmit={handleForgotEmail}>
         {({ isSubmitting }) => (
           <Form className="form" noValidate>
             {/* Email */}

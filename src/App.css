@@ -150,7 +150,7 @@ input::placeholder {
 .link-button,
 .create-new-account-text {
   /* keep compatibility with your existing class */
-  display: block;
+  /* display: block; */
   width: 100%;
   text-align: center;
   background: transparent;

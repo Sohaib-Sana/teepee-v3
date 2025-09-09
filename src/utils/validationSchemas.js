@@ -30,13 +30,20 @@ export const registerSchema = Yup.object({
   confirmPassword: confirmPasswordValidation("password"),
 });
 
-export const otpSchema = Yup.object({
-  otp: otpValidation,
-});
+// export const otpSchema = Yup.object({
+//   otp: otpValidation,
+// });
 
 // Validation Schema
 export const taskSchema = Yup.object().shape({
   taskName: Yup.string().required("Task name is required"),
   paper: Yup.string().required("Please select a paper"),
   feedback: Yup.string().required("Please choose a feedback option"),
+});
+
+// Schema: 6-digit numeric OTP
+export const otpSchema = Yup.object({
+  otp: Yup.string()
+    .matches(/^[0-9]{6}$/, "Enter a valid 6-digit code")
+    .required("OTP is required"),
 });

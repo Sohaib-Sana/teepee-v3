@@ -2,20 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { registerSchema } from "../../utils/validationSchemas";
 import { registerUser, statusEnum } from "../../store/slices/authSlice";
-import { useRevalidator } from "react-router-dom";
 
-function SignupForm() {
+function SignupForm({ handleSubmit }) {
   const dispatch = useDispatch();
-  const revalidator = useRevalidator();
   const status = useSelector((state) => state.ui.status);
-
-  const handleSubmit = async (values) => {
-    const resultAction = await dispatch(registerUser(values));
-    console.log("RESULT ACTION: ", resultAction);
-    // if (registerUser.fulfilled.match(resultAction) && resultAction.payload.token) {
-    //   revalidator.revalidate();
-    // }
-  };
 
   return (
     <div className="form-shell">
