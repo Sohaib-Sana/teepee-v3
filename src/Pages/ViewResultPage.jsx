@@ -44,7 +44,7 @@ function ViewResultPage() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-6">
-        <button onClick={() => navigate("/")} className="mb-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 flex items-center">
+        <button onClick={() => navigate(-1)} className="mb-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 flex items-center">
           ← Back to Tasks
         </button>
         <h1 className="text-2xl font-bold text-gray-900">Quiz Results</h1>

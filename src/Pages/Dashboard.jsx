@@ -23,8 +23,6 @@ function Dashboard() {
       {/* </div> */}
     </div>
   );
-  // return !subjectId ? <SelectInitialSubject dispatch /> : <TaskSetupForm />;
-  // return !subjectId ? <SelectInitialSubject dispatch /> : <QuestionList />;
 }
 
 export default Dashboard;

@@ -1,6 +1,6 @@
 import React from "react";
 import { api } from "../../utils/api";
-function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen, setQuizLink, readOnly = false }) {
+function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen, setQuizId, readOnly = false }) {
   const handleShare = (paperId, quizName, humanInLoop) => {
     const quizMarks = questions.reduce((sum, q) => sum + parseInt(q.marks, 10), 0);
     const questionIdsCsv = questions.map((q) => q.question_id).join(",");
@@ -13,7 +13,7 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
         question_ids_csv: questionIdsCsv,
       })
       .then((res) => {
-        setQuizLink?.(res.data.quiz_id);
+        setQuizId?.(res.data.quiz_id);
         setDialogOpen?.(true);
       })
       .catch((error) => console.error("Error creating quiz:", error));

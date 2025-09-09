@@ -4,8 +4,8 @@ import { api } from "../../utils/api";
 export const emailLogin = createAsyncThunk("auth/emailLogin", async ({ email, password }) => {
   try {
     const response = await api.post("/login", { email, password });
-    const { access_token, subject_id } = response.data;
-    return { user: { subjectId: subject_id }, token: access_token };
+    const { access_token, subject_id, user_type } = response.data;
+    return { user: { subjectId: subject_id, userType: user_type }, token: access_token };
   } catch (error) {
     console.error("Error in email Login:", error);
     return rejectWithValue(error.response?.data?.message || "Failed to login user by email");
@@ -15,8 +15,8 @@ export const emailLogin = createAsyncThunk("auth/emailLogin", async ({ email, pa
 export const googleOrMicrosoftLogin = createAsyncThunk("auth/googleOrMicrosoftLogin", async ({ email, authType, name }) => {
   try {
     const response = await api.post("/login_with_google_or_ms_verified_email", { email, auth_type: authType, name });
-    const { access_token, subject_id } = response.data;
-    return { user: { subjectId: subject_id }, token: access_token };
+    const { access_token, subject_id, user_type } = response.data;
+    return { user: { subjectId: subject_id, userType: user_type }, token: access_token };
   } catch (error) {
     console.error("Error in Microsoft Login:", error);
     return rejectWithValue(error.response?.data?.message || "Failed to login user by email");
@@ -44,8 +44,8 @@ export const verifyOtp = createAsyncThunk("auth/verifyOtp", async ({ email, OTP 
     const response = await api.post("/verify_otp", { email, one_time_password: OTP });
     const { is_valid_otp } = response.data;
     if (is_valid_otp) {
-      const { access_token, subject_id, web_user_id } = response.data;
-      return { is_valid_otp, user: { subjectId: subject_id }, token: access_token };
+      const { access_token, subject_id, user_type } = response.data;
+      return { is_valid_otp, user: { subjectId: subject_id, userType: user_type }, token: access_token };
     }
     return is_valid_otp;
   } catch (error) {

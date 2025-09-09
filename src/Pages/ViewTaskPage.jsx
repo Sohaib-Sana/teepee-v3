@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import TaskSetupForm from "../components/DashboardComponents/TaskSetupForm";
 import GeneratedQuestions from "../components/DashboardComponents/GeneratedQuestions";
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { handleViewQuiz } from "../utils/api_handlers";
 import ShareDialog from "../components/Dialogues/ShareQuizDialog";
 
 function ViewTaskPage() {
   const loader = useLoaderData();
+  const navigate = useNavigate();
   const location = useLocation();
   const paperList = useRef(loader?.data?.paper_list || []);
   const [questions, setQuestions] = useState();
   const [taskConfig, setTaskConfig] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [quizLink, setQuizLink] = useState("");
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -31,9 +31,16 @@ function ViewTaskPage() {
     fetchQuiz();
   }, []);
 
+  const handleGenerateLink = () => {
+    setQuizId("");
+  };
+
   return (
     <div>
-      {dialogOpen && <ShareDialog onClose={() => setDialogOpen(false)} quizLink={quizLink} />}
+      {dialogOpen && <ShareDialog onClose={() => setDialogOpen(false)} quizId={location.state.quizId} />}
+      <button onClick={() => navigate(-1)} className="mb-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 flex items-center">
+        ← Back
+      </button>
       <TaskSetupForm
         paperList={paperList.current}
         taskConfig={taskConfig}
@@ -48,7 +55,6 @@ function ViewTaskPage() {
             taskConfig={taskConfig}
             readOnly={true} // no editing options
             setDialogOpen={setDialogOpen}
-            setQuizLink={setQuizLink}
           />
         </>
       )}

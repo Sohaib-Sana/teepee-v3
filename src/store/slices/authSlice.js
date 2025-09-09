@@ -6,7 +6,7 @@ export const statusEnum = { Idle: "idle", Loading: "loading", Succeeded: "succee
 export const OTPEnum = { Idle: "idle", Sent: "sent", Valid: "valid", Invalid: "invalid" };
 
 const initialState = {
-  user: null, // { id, name, email, role, subjectId } | null
+  user: null, // { id, name, email, role, subjectId, userType } | null
   token: getToken(), // JWT token | null
   status: statusEnum.Idle, // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,

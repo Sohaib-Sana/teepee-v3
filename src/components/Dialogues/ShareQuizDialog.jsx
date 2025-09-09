@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 
-function ShareDialog({ onClose, quizLink }) {
-  const [link] = useState(`${import.meta.env.VITE_URL + "/quiz/" + quizLink}`);
+function ShareDialog({ onClose, quizId }) {
+  const [link] = useState(`${import.meta.env.VITE_URL + "/quiz/" + quizId}`);
   const [isClicked, setIsClicked] = useState(false);
 
   const copyToClipboard = () => {
@@ -30,8 +30,8 @@ function ShareDialog({ onClose, quizLink }) {
 
         {/* Input + Copy Button */}
         <div className="flex items-center">
-          <input type="text" value={link} readOnly className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none text-sm" />
-          <button onClick={copyToClipboard} className="px-4 py-2 primary-button text-white text-sm rounded-r-m">
+          <input type="text" value={link} readOnly className="flex-1 px-3 py-2 border border-gray-300 rounded-l-2xl focus:outline-none text-sm" />
+          <button onClick={copyToClipboard} className=" px-2 py-2 text-[14.5px] bg-[#3B82F6] text-white rounded-e-2xl">
             {isClicked ? "Copied..." : "Copy"}
           </button>
         </div>

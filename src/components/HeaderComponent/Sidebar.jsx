@@ -1,10 +1,12 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useRevalidator } from "react-router-dom";
 import { logout } from "../../store/slices/authSlice";
 
 export default function Sidebar({ isOpen, onToggle }) {
   const revalidator = useRevalidator();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
   const handleLogout = () => {
     dispatch(logout());
     revalidator.revalidate();
@@ -31,16 +33,18 @@ export default function Sidebar({ isOpen, onToggle }) {
                 Dashboard
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/papers"
-                className={({ isActive }) =>
-                  `block p-2 rounded ${isActive ? "bg-[#3B82F6]/10 text-[#3B82F6]" : "hover:bg-[#3882F6]/10 hover:text-[#3B82F6]"}`
-                }
-              >
-                Papers
-              </NavLink>
-            </li>
+            {user.userType === 2 && (
+              <li>
+                <NavLink
+                  to="/papers"
+                  className={({ isActive }) =>
+                    `block p-2 rounded ${isActive ? "bg-[#3B82F6]/10 text-[#3B82F6]" : "hover:bg-[#3882F6]/10 hover:text-[#3B82F6]"}`
+                  }
+                >
+                  Papers
+                </NavLink>
+              </li>
+            )}
           </ul>
 
           {/* Logout button pinned at the bottom */}
