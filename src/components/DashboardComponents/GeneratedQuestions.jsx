@@ -1,13 +1,10 @@
 import React from "react";
 import { api } from "../../utils/api";
-
 function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen, setQuizLink, readOnly = false }) {
   console.log("QUESTIONS: ", questions);
-
   const handleShare = (paperId, quizName, humanInLoop) => {
     const quizMarks = questions.reduce((sum, q) => sum + parseInt(q.marks, 10), 0);
     const questionIdsCsv = questions.map((q) => q.question_id).join(",");
-
     api
       .post("/create_quiz", {
         paper_id: paperId,
@@ -23,11 +20,9 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
       })
       .catch((error) => console.error("Error creating quiz:", error));
   };
-
   const handleRemove = (id) => {
     setQuestions?.((prev) => prev.filter((ques) => ques.question_id !== id));
   };
-
   return (
     <div className="form-shell">
       <div className="form space-y-6">
@@ -36,17 +31,22 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
             {/* Question text */}
             <div className="bg-gray-100 p-4 rounded-md">
               <div className="text-sm text-justify whitespace-pre-line">
-                <span className="font-semibold">Question {index + 1}: </span>
-                {ques.question
-                  // remove line breaks that are directly after a space
-                  .replace(/ \n+/g, " ")
-                  // preserve all other line breaks
-                  .split("\n")
-                  .map((line, i) => (
-                    <p key={i} className="mb-2">
-                      {line}
-                    </p>
-                  ))}
+                <span className="font-semibold">Question {index + 1}:</span>{" "}
+                {(() => {
+                  const lines = ques.question.replace(/ \n+/g, "\n").split("\n");
+                  return (
+                    <>
+                      {/* First line inline (normal weight, with spacing) */}
+                      <span className="leading-10 font-normal">{lines[0]}</span>
+                      {/* Remaining lines stacked with spacing */}
+                      {lines.slice(1).map((line, i) => (
+                        <div key={i} className="leading-relaxed mb-4 font-normal">
+                          {line}
+                        </div>
+                      ))}
+                    </>
+                  );
+                })()}
                 <span className="font-semibold">[Marks: {ques.marks}]</span>
                 {ques.image && (
                   <div className="mt-3 flex justify-center">
@@ -55,7 +55,6 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
                 )}
               </div>
             </div>
-
             {/* Remove button */}
             {!readOnly && (
               <div className="flex justify-end mt-2">
@@ -68,11 +67,9 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
                 </button>
               </div>
             )}
-
             <hr className="mt-4" />
           </div>
         ))}
-
         {/* Share Button */}
         {/* {!readOnly && ( */}
         <button
@@ -90,5 +87,4 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
     </div>
   );
 }
-
 export default GeneratedQuestions;
