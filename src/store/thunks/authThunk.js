@@ -5,6 +5,7 @@ export const emailLogin = createAsyncThunk("auth/emailLogin", async ({ email, pa
   try {
     const response = await api.post("/login", { email, password });
     const { access_token, subject_id, user_type } = response.data;
+    console.log("USER TYPE IN API: ", user_type);
     return { user: { subjectId: subject_id, userType: user_type }, token: access_token };
   } catch (error) {
     console.error("Error in email Login:", error);

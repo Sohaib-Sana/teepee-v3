@@ -6,6 +6,7 @@ export default function Sidebar({ isOpen, onToggle }) {
   const revalidator = useRevalidator();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  console.log("USER TYPE: ", user);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -33,7 +34,7 @@ export default function Sidebar({ isOpen, onToggle }) {
                 Dashboard
               </NavLink>
             </li>
-            {user.userType === 2 && (
+            {user?.userType === 2 && (
               <li>
                 <NavLink
                   to="/papers"
