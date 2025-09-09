@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { handleGetQuestionResponses, handleUpdateQuestionResponse } from "../utils/api_handlers";
 
 function ViewQuestionResponsesPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const pdfRef = useRef();
   const { quizResponseId, studentName } = location.state || {};
   const [questionResponses, setQuestionResponses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,21 +67,90 @@ function ViewQuestionResponsesPage() {
     setEditValues({});
   };
 
+  const handleDownload = () => {
+    // Add print styles
+    const printStyles = document.createElement("style");
+    printStyles.innerHTML = `
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #pdf-content, #pdf-content * {
+          visibility: visible;
+        }
+        #pdf-content {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .edit-buttons {
+          display: none !important;
+        }
+        .editable-marks input {
+          display: none !important;
+        }
+        .editable-feedback textarea {
+          display: none !important;
+        }
+        img {
+          max-width: 100% !important;
+          height: auto !important;
+          page-break-inside: avoid;
+        }
+        .space-y-8 > div {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        hr {
+          page-break-after: avoid;
+        }
+      }
+    `;
+    document.head.appendChild(printStyles);
+
+    // Add ID to the PDF content for targeting
+    const element = pdfRef.current;
+    element.id = "pdf-content";
+
+    // Trigger print dialog
+    setTimeout(() => {
+      window.print();
+
+      // Clean up after print dialog closes
+      setTimeout(() => {
+        document.head.removeChild(printStyles);
+        element.removeAttribute("id");
+      }, 1000);
+    }, 100);
+  };
+
   if (loading) return <div className="p-6">Loading question responses...</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
-        <button onClick={() => navigate(-1)} className="mb-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 flex items-center">
+        <button onClick={() => navigate(-1)} className="no-print mb-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 flex items-center">
           ← Back to Results
         </button>
-        <h1 className="text-2xl font-bold text-gray-900">Question Responses - {studentName || "Unknown Student"}</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900">Question Responses - {studentName || "Unknown Student"}</h1>
+          <button 
+            onClick={handleDownload} 
+            className="no-print bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition text-sm"
+          >
+            Download PDF
+          </button>
+        </div>
       </div>
 
       {questionResponses.length === 0 ? (
         <div className="text-center py-8 text-gray-500">No question responses found.</div>
       ) : (
-        <div className="space-y-8">
+        <div ref={pdfRef} className="space-y-8" style={{ backgroundColor: "white", padding: "20px" }}>
           {questionResponses.map((ques, index) => (
             <div key={ques.question_response_id} className="space-y-4">
               {/* Question header with marks */}
@@ -104,7 +174,7 @@ function ViewQuestionResponsesPage() {
                       type="number"
                       value={editValues.obtained_marks}
                       onChange={(e) => setEditValues((prev) => ({ ...prev, obtained_marks: Number(e.target.value) }))}
-                      className="w-16 p-1 border border-gray-300 rounded text-center text-xs"
+                      className="editable-marks w-16 p-1 border border-gray-300 rounded text-center text-xs"
                       min="0"
                       max={ques.marks || 100}
                     />
@@ -130,7 +200,7 @@ function ViewQuestionResponsesPage() {
 
               {/* Feedback (Editable) */}
               {editingQuestion === ques.question_response_id ? (
-                <div className="space-y-2">
+                <div className="editable-feedback space-y-2">
                   <label className="block text-sm font-medium text-gray-700">Feedback:</label>
                   <textarea
                     value={editValues.obtained_feedback}
@@ -149,7 +219,7 @@ function ViewQuestionResponsesPage() {
               )}
 
               {/* Action Buttons */}
-              <div className="flex justify-end space-x-2">
+              <div className="edit-buttons flex justify-end space-x-2">
                 {editingQuestion === ques.question_response_id ? (
                   <>
                     <button

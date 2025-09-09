@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { api } from "../utils/api";
 import QuizResponse from "../components/QuizComponents/QuizResponse";
+import HumanInLoopMessage from "../components/QuizComponents/HumanInLoopMessage";
 import { handleViewQuiz } from "../utils/api_handlers";
 import SourcePopup from "../components/Dialogues/SourceTextDialog";
 const QuizPage = () => {
@@ -10,6 +11,7 @@ const QuizPage = () => {
   const [quizData, setQuizData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quizResponse, setQuizResponse] = useState(null);
+  const [humanInLoopSubmission, setHumanInLoopSubmission] = useState(null);
   const [showSource, setShowSource] = useState(false);
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -30,20 +32,38 @@ const QuizPage = () => {
         ...prev,
         questions: updatedQuestions,
       }));
-      const res = await api.post("/submit_quiz", {
-        student_name: values.studentName,
-        quiz_id: quizId,
-        student_question_list: updatedQuestions,
-        paper_source_text: quizData.quiz.paper_source_text,
-      });
-      console.log("UPDATED RESPONSE: ", res.data);
-      setQuizResponse({
-        quiz: quizData.quiz,
-        student_name: values.studentName,
-        obtained_marks: res.data.obtained_marks,
-        obtained_feedback: res.data.obtained_feedback,
-        questions: res.data.student_question_list,
-      });
+      console.log("QUIZ DATA", quizData);
+      // Check if human_in_loop is enabled
+      if (quizData.quiz.human_in_loop === 1) {
+        // For human-in-loop, just submit without expecting AI evaluation
+        await api.post("/submit_quiz", {
+          student_name: values.studentName,
+          quiz_id: quizId,
+          student_question_list: updatedQuestions,
+          paper_source_text: quizData.quiz.paper_source_text,
+        });
+        // Set human-in-loop submission data to show the message
+        setHumanInLoopSubmission({
+          studentName: values.studentName,
+          quizName: quizData.quiz.quiz_name,
+        });
+      } else {
+        // Existing flow for immediate AI evaluation
+        const res = await api.post("/submit_quiz", {
+          student_name: values.studentName,
+          quiz_id: quizId,
+          student_question_list: updatedQuestions,
+          paper_source_text: quizData.quiz.paper_source_text,
+        });
+        console.log("UPDATED RESPONSE: ", res.data);
+        setQuizResponse({
+          quiz: quizData.quiz,
+          student_name: values.studentName,
+          obtained_marks: res.data.obtained_marks,
+          obtained_feedback: res.data.obtained_feedback,
+          questions: res.data.student_question_list,
+        });
+      }
     } catch (err) {
       console.error("Error submitting quiz:", err);
       alert("Something went wrong!");
@@ -57,7 +77,11 @@ const QuizPage = () => {
   };
   if (loading) return <p className="text-center mt-10">Loading quiz...</p>;
   if (!quizData) return <p className="text-center mt-10">No quiz found.</p>;
-  // :white_tick: Show QuizResponse immediately after submission
+  // Show human-in-loop message if submission was for human evaluation
+  if (humanInLoopSubmission) {
+    return <HumanInLoopMessage studentName={humanInLoopSubmission.studentName} quizName={humanInLoopSubmission.quizName} />;
+  }
+  // Show QuizResponse immediately after submission for regular flow
   if (quizResponse) return <QuizResponse responseData={quizResponse} />;
   return (
     <div className="min-h-screen bg-gray-100 py-10">
@@ -110,15 +134,23 @@ const QuizPage = () => {
                 <div key={ques.question_id} className="space-y-2">
                   <div className="flex justify-between items-start">
                     <label className="text-sm font-medium flex-1 pr-2">
+                      {/* Only Question X is bold */}
                       <span className="font-semibold">Question {index + 1}:</span>{" "}
-                      {ques.question
-                        .replace(/ \n+/g, " ")
-                        .split("\n")
-                        .map((line, i) => (
-                          <p key={i} className="mb-2">
-                            {line}
-                          </p>
-                        ))}
+                      {(() => {
+                        const lines = ques.question.replace(/ \n+/g, "\n").split("\n");
+                        return (
+                          <>
+                            {/* First line inline (normal weight, with spacing) */}
+                            <span className="leading-10 font-normal">{lines[0]}</span>
+                            {/* Remaining lines stacked with spacing */}
+                            {lines.slice(1).map((line, i) => (
+                              <div key={i} className="leading-relaxed mb-4 font-normal">
+                                {line}
+                              </div>
+                            ))}
+                          </>
+                        );
+                      })()}
                     </label>
                     <span className="text-[#3B82F6] text-sm font-medium text-right w-20 shrink-0">{ques.marks} Marks</span>
                   </div>
@@ -143,7 +175,7 @@ const QuizPage = () => {
                 className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isSubmitting || (errors.studentName && touched.studentName)}
               >
-                {isSubmitting ? "Submitting..." : "Submit Answers"}
+                {isSubmitting ? "Evaluating..." : "Submit Answers"}
               </button>
             </Form>
           )}
