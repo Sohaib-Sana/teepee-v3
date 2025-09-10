@@ -9,7 +9,7 @@ function ShareDialog({ onClose, quizId }) {
     setIsClicked(true);
     setTimeout(() => {
       onClose();
-    }, 2000);
+    }, 1500);
   };
 
   return (

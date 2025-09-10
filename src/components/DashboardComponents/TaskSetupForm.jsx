@@ -6,6 +6,7 @@ import loopAnimation from "../../assets/animations/loop_loading_animation.json";
 import Lottie from "lottie-react";
 
 function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = false }) {
+  console.log("PAPERLIST: ", paperList);
   const handleSubmit = async (values, { setSubmitting }) => {
     api
       .post("/get_paper_questions", { paper_id: values.paper })

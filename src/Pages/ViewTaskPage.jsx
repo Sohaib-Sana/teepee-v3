@@ -31,10 +31,6 @@ function ViewTaskPage() {
     fetchQuiz();
   }, []);
 
-  const handleGenerateLink = () => {
-    setQuizId("");
-  };
-
   return (
     <div>
       {dialogOpen && <ShareDialog onClose={() => setDialogOpen(false)} quizId={location.state.quizId} />}
