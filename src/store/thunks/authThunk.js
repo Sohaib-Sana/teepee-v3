@@ -48,7 +48,7 @@ export const verifyOtp = createAsyncThunk("auth/verifyOtp", async ({ email, OTP 
       const { access_token, subject_id, user_type } = response.data;
       return { is_valid_otp, user: { subjectId: subject_id, userType: user_type }, token: access_token };
     }
-    return is_valid_otp;
+    return { is_valid_otp };
   } catch (error) {
     console.error("Error in /verify_otp API:", error);
     return rejectWithValue(error.response?.data?.message || "Failed to verify user by OTP");

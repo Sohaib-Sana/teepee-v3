@@ -53,7 +53,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        s.otpStatus = OTPEnum.Sent;
+        // s.otpStatus = OTPEnum.Sent;
       })
       .addCase(registerUser.rejected, (s, a) => {
         s.status = statusEnum.Failed;
@@ -82,9 +82,12 @@ const authSlice = createSlice({
       })
       .addCase(sendForgotEmail.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        if (a.payload.is_account_exist) {
-          s.otpStatus = OTPEnum.Sent;
-        }
+        // return a.payload.is_account_exist;
+        // if (a.payload.is_account_exist) {
+
+        //   // s.otpStatus = OTPEnum.Sent;
+        //   // action.asyncDispatch(setForgotSteps(forgotSteps.OTP));
+        // }
       })
       .addCase(sendForgotEmail.rejected, (s, a) => {
         s.status = statusEnum.Failed;

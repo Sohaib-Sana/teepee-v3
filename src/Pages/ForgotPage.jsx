@@ -3,18 +3,30 @@ import ForgotPasswordForm from "../components/AuthComponents/ForgotPasswordForm"
 import { useDispatch, useSelector } from "react-redux";
 import { OTPEnum, sendForgotEmail } from "../store/slices/authSlice";
 import OtpVerificationForm from "../components/AuthComponents/OTPForm";
-import { loginSteps, setAuthView } from "../store/slices/authUiSlice";
+import { forgotSteps, loginSteps, setAuthView, setForgotSteps } from "../store/slices/authUiSlice";
 import { useNavigate } from "react-router-dom";
 
 function ForgotPage() {
-  const otpstatus = useSelector((state) => state.auth.otpStatus);
+  // const otpstatus = useSelector((state) => state.auth.otpStatus);
+  const currentForgotStep = useSelector((state) => state.ui.forgotStep);
+  console.log("CURRENT FORGOT STEP: ", currentForgotStep);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailRef = useRef("");
 
-  const handleForgotEmail = (values, { isSubmitting }) => {
+  const handleForgotEmail = (values, { setSubmitting }) => {
     emailRef.current = values.email;
-    dispatch(sendForgotEmail(values));
+    dispatch(sendForgotEmail(values))
+      .unwrap()
+      .then((payload) => {
+        if (payload.is_account_exist) {
+          dispatch(setForgotSteps(forgotSteps.OTP)); // 👈 action from uiSlice
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    setSubmitting(false);
   };
 
   const handleAreadyHaveAccount = () => {
@@ -24,7 +36,7 @@ function ForgotPage() {
 
   return (
     <div className="h-full p-6">
-      {otpstatus !== OTPEnum.Sent ? (
+      {currentForgotStep === forgotSteps.Email ? (
         <ForgotPasswordForm handleForgotEmail={handleForgotEmail} />
       ) : (
         <OtpVerificationForm userEmail={emailRef.current} />

@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="text-white mb-0 flex justify-center items-center bg-white">
       <div className="absolute bottom-5 pr-0 pl-0 w-[495px]">
-        <div className="teepee-disclaimer text-black" style={{ fontSize: "12px" }}>
+        <div className="teepee-disclaimer text-[#7485A8]" style={{ fontSize: "12px" }}>
           <p>⚠️ Please note: Huxley is in early Beta. We’re refining our AI’s task generation and marking, so occasional inaccuracies may occur.</p>
         </div>
         {/* <div className="flex mt-2">

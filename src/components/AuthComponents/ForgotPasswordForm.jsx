@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { emailValidation } from "../../utils/validationSchemas";
-import { statusEnum, sendForgotEmail } from "../../store/slices/authSlice";
+import { statusEnum } from "../../store/slices/authSlice";
 import * as Yup from "yup";
 
 function ForgotPasswordForm({ handleForgotEmail }) {
