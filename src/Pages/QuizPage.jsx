@@ -27,12 +27,10 @@ const QuizPage = () => {
         ...ques,
         answer: values.answers[ques.question_id] || "null",
       }));
-      console.log("UPDATED QUESTIONS: ", updatedQuestions);
       setQuizData((prev) => ({
         ...prev,
         questions: updatedQuestions,
       }));
-      console.log("QUIZ DATA", quizData);
       // Check if human_in_loop is enabled
       if (quizData.quiz.human_in_loop === 1) {
         // For human-in-loop, just submit without expecting AI evaluation
@@ -55,7 +53,6 @@ const QuizPage = () => {
           student_question_list: updatedQuestions,
           paper_source_text: quizData.quiz.paper_source_text,
         });
-        console.log("UPDATED RESPONSE: ", res.data);
         setQuizResponse({
           quiz: quizData.quiz,
           student_name: values.studentName,
@@ -72,7 +69,6 @@ const QuizPage = () => {
     }
   };
   const handleViewSource = () => {
-    console.log("SOURCE TEXT: ", quizData.quiz);
     setShowSource(true);
   };
   if (loading) return <p className="text-center mt-10">Loading quiz...</p>;

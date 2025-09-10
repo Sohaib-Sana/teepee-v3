@@ -26,3 +26,7 @@ code {
 button {
   cursor: pointer;
 }
+
+html, body {
+  overflow-x: hidden;
+}

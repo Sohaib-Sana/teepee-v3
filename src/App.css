@@ -15,9 +15,9 @@
   --color-muted: #7e7f86;
   --color-label: #353846;
   --color-border: #8B8B90;
-  --color-link: #3B82F6;
+  --color-link: #4189FF;
   --color-primary: #3B82F6;
-  --color-primary-press: #3B82F6;
+  --color-primary-press: #387ceb;
   --color-primary-disabled: rgba(201, 182, 245, 0.691);
   --color-surface: #fff;
 
@@ -235,7 +235,7 @@ input::placeholder {
 /* -------------------------- TEEPEE AUTH PAGE ---------------------------- */
 
 .teepee-heading {
-  color: #1d192b;
+  color: #354D82;
   font-family: Segoe UI;
   font-size: 24px;
   font-style: normal;
@@ -246,7 +246,7 @@ input::placeholder {
 }
 
 .teepee-sub-heading {
-  color: #49454f;
+  color: #49454F;
   font-family: Segoe UI;
   font-size: 16px;
   font-style: normal;

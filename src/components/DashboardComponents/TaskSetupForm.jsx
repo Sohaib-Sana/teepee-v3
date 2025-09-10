@@ -41,12 +41,12 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
         {({ isSubmitting }) => (
           <Form className="form" noValidate>
             {/* Step Header */}
-            <h2 className="form-title mb-6 text-purple-600">Task Setup</h2>
+            {!readOnly && <h2 className="form-title mb-6 ">Task Setup</h2>}
 
             {/* Task Name */}
             <div className="form-group">
               <label className="form-label" htmlFor="taskName">
-                1. Name Your Task <span className="text-red-500">*</span>
+                {"1." + readOnly ? "Task Name" : "Name Your Task"} {!readOnly && <span className="text-red-500">*</span>}
               </label>
               {/* {readOnly ? (
                 <div className="form-readonly">{initialValues.taskName}</div>
@@ -61,7 +61,7 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
             {/* Select Paper */}
             <div className="form-group">
               <label className="form-label" htmlFor="paper">
-                2. Select the paper of your choice <span className="text-red-500">*</span>
+                {"2." + readOnly ? "Selected Paper" : "Select the paper of your choice"} {!readOnly && <span className="text-red-500">*</span>}
               </label>
               {/* {readOnly ? (
                 <div className="form-readonly">{paperList.find((p) => p.paper_id === initialValues.paper)?.paper_name || "N/A"}</div>
@@ -82,14 +82,9 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
 
             {/* Feedback Choice */}
             <div className="form-group">
-              <label className="form-label block mb-2">Choose how Huxley shares feedback:</label>
+              <label className="form-label block mb-2">{!readOnly ? "Choose how" : "How"} Huxley shares feedback:</label>
               <p className="text-gray-600 text-sm mb-3">Review it first (Human-in-the-loop) or send directly to students instantly.</p>
 
-              {/* {readOnly ? (
-                <div className="form-readonly">
-                  {initialValues.feedback === "review" ? "Review before sharing (Human-in-the-loop)" : "Share feedback directly with students"}
-                </div>
-              ) : ( */}
               <div className="space-y-2">
                 <label className="flex items-center gap-2">
                   <Field type="radio" name="feedback" value="review" disabled={readOnly} />
@@ -97,7 +92,7 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
                 </label>
 
                 <label className="flex items-center gap-2">
-                  <Field type="radio" name="feedback" value="direct" />
+                  <Field type="radio" name="feedback" value="direct" disabled={readOnly} />
                   <span>Share feedback directly with students</span>
                 </label>
               </div>

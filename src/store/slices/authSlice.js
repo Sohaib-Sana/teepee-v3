@@ -6,7 +6,7 @@ export const statusEnum = { Idle: "idle", Loading: "loading", Succeeded: "succee
 export const OTPEnum = { Idle: "idle", Sent: "sent", Valid: "valid", Invalid: "invalid" };
 
 const initialState = {
-  user: null, // { id, name, email, role, subjectId } | null
+  user: null, // { id, name, email, role, subjectId, userType } | null
   token: getToken(), // JWT token | null
   status: statusEnum.Idle, // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
@@ -53,7 +53,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        s.otpStatus = OTPEnum.Sent;
+        // s.otpStatus = OTPEnum.Sent;
       })
       .addCase(registerUser.rejected, (s, a) => {
         s.status = statusEnum.Failed;
@@ -66,7 +66,6 @@ const authSlice = createSlice({
       })
       .addCase(verifyOtp.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        console.log("ACTION PAYLOAD : ", a.payload);
         if (a.payload.is_valid_otp) {
           s.token = a.payload.token;
           setToken(a.payload.token), (s.user = a.payload.user);
@@ -83,11 +82,12 @@ const authSlice = createSlice({
       })
       .addCase(sendForgotEmail.fulfilled, (s, a) => {
         s.status = statusEnum.Succeeded;
-        console.log("BEFORE CONDITION : ", a.payload.is_account_exist);
-        if (a.payload.is_account_exist) {
-          s.otpStatus = OTPEnum.Sent;
-          console.log("CONDITION MET: ", s.otpStatus);
-        }
+        // return a.payload.is_account_exist;
+        // if (a.payload.is_account_exist) {
+
+        //   // s.otpStatus = OTPEnum.Sent;
+        //   // action.asyncDispatch(setForgotSteps(forgotSteps.OTP));
+        // }
       })
       .addCase(sendForgotEmail.rejected, (s, a) => {
         s.status = statusEnum.Failed;

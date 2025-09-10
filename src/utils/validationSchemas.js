@@ -3,7 +3,14 @@ import * as Yup from "yup";
 // Common validation rules
 export const emailValidation = Yup.string().email("Invalid email address").required("Email is required");
 
-export const passwordValidation = Yup.string().min(6, "Password must be at least 6 characters").required("Password is required");
+export const passwordRequiredValidation = Yup.string().required("Password is required");
+
+export const passwordValidation = Yup.string()
+  .required("Password is required")
+  .min(6, "Password must be at least 6 characters")
+  .matches(/[A-Za-z]/, "Password must contain at least one alphabet")
+  .matches(/\d/, "Password must contain at least one number")
+  .matches(/[@$!%*?&#^()_\-+={}[\]|\\:;"'<>,.?/~]/, "Password must contain at least one special character");
 
 export const usernameValidation = Yup.string()
   .min(3, "Username must be at least 3 characters")
@@ -20,7 +27,7 @@ export const otpValidation = Yup.string().length(6, "OTP must be 6 digits").requ
 // Example form schemas
 export const loginSchema = Yup.object({
   email: emailValidation,
-  password: passwordValidation,
+  password: passwordRequiredValidation,
 });
 
 export const registerSchema = Yup.object({

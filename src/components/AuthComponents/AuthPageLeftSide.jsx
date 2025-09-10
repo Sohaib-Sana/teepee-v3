@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import HuxleyLogo from "../../assets/images/Huxley-logo.png";
-// import HuxleyBackground from "../../assets/images/Huxley-background.png";
 import Background from "../../assets/images/Rectangle.png";
 import Footer from "./Footer";
 import { userRoles } from "../../store/slices/authUiSlice";

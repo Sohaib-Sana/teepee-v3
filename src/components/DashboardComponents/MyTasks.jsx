@@ -12,7 +12,6 @@ function MyTasks() {
       setLoading(true);
       const data = await handleGetQuizzes();
       setQuizzes(Array.isArray(data) ? data : []);
-      console.log("QUIZZES: ", data);
       setLoading(false);
     };
     fetchQuizzes();

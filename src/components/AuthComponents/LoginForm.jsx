@@ -11,7 +11,6 @@ function LoginForm() {
 
   const handleSubmit = async (values) => {
     const resultAction = await dispatch(emailLogin(values));
-    console.log("Result Action: ", resultAction);
     if (emailLogin.fulfilled.match(resultAction) && resultAction.payload.token) {
       revalidator.revalidate();
     }
