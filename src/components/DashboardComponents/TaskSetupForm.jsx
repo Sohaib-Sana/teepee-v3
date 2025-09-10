@@ -71,6 +71,13 @@ function TaskSetupForm({ paperList, handleGenerateTask, taskConfig, readOnly = f
                     </option>
                   )}
 
+                  {/* Add current paper if not in paperList but exists in taskConfig */}
+                  {taskConfig?.paperName && !paperList.find(p => p.paper_id === taskConfig.paperId) && (
+                    <option value={taskConfig.paperId}>
+                      {taskConfig.paperName}
+                    </option>
+                  )}
+
                   {paperList.map((paper) => (
                     <option key={paper.paper_id} value={paper.paper_id}>
                       {paper.paper_name}
