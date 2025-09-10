@@ -1,3 +1,4 @@
+import HuxleyLogo from "../../assets/images/Huxley-logo.png";
 export default function Header({ onMenuClick }) {
   return (
     <header className="fixed top-0 left-0 right-0 h-16  text-[#6750A4] flex items-center px-4 shadow-md z-20">
@@ -6,7 +7,11 @@ export default function Header({ onMenuClick }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
-      <h1 className="text-lg font-bold">Huxley</h1>
+      {/* <h1 className="text-lg font-bold">Huxley</h1> */}
+      {/* Logo */}
+      <div className="jess_icon left-[2.5rem] md:left-[2.2rem] sm:left-[2rem]">
+        <img src={HuxleyLogo} alt="Huxley" />
+      </div>
     </header>
   );
 }

@@ -12,6 +12,9 @@ function AuthPageLeftSide() {
       className="w-full h-full flex flex-col justify-between p-10 relative"
       style={{
         backgroundImage: `url(${Background})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
       }}
     >
       {/* Logo */}

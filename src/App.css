@@ -126,6 +126,7 @@ input::placeholder {
 
 .btn-primary {
   background: var(--color-primary);
+  border-radius: 12px;
   color: #fff;
 }
 
@@ -215,6 +216,7 @@ input::placeholder {
   text-align: center;
   background-color: #3B82F6 ;
   color: #ffffff;
+  border-radius: 12px;
 }
 .primary-button:hover {
   font-style: normal;
@@ -261,7 +263,7 @@ input::placeholder {
   position: absolute;
   width: 167px;
   height: 42px;
-  top: 21px;
+  top: 1rem;
 }
 
 /* Footer styles */

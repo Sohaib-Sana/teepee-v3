@@ -11,10 +11,10 @@ function CreateTaskCard() {
   };
 
   return (
-    <div className="max-w-lg w-full text-center">
+    <div className="max-w-md w-full text-center">
       <div className="border border-gray-200 rounded-lg p-6 shadow-sm bg-white text-left">
         <div className="flex items-center mb-4">
-          <div className="bg-[#A07BEC]/30 text-[#A07BEC] rounded-md p-2 mr-3">
+          <div className="btn-primary text-[#A07BEC] p-2 mr-3">
             {/* Icon (simple document icon) */}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
