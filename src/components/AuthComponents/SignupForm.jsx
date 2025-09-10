@@ -1,10 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { registerSchema } from "../../utils/validationSchemas";
-import { registerUser, statusEnum } from "../../store/slices/authSlice";
+import { statusEnum } from "../../store/slices/authSlice";
 
 function SignupForm({ handleSubmit }) {
-  const dispatch = useDispatch();
   const status = useSelector((state) => state.ui.status);
 
   return (
@@ -35,7 +34,14 @@ function SignupForm({ handleSubmit }) {
               <label className="form-label" htmlFor="email">
                 Enter your email address:
               </label>
-              <Field className="form-input" type="email" id="email" name="email" placeholder="Enter your email" autoComplete="email" />
+              <Field
+                className="form-input w-full max-w-full box-border"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                autoComplete="email"
+              />
               <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 

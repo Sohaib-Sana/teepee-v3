@@ -34,10 +34,6 @@ function RegisterPage() {
           </span>
         </p>
       </div>
-      {/* <button type="button" className="link-button" onClick={handleAreadyHaveAccount}>
-        <span className="text-black/50 hover:no-underline">Already have an account? </span>
-        Sign In
-      </button> */}
     </div>
   );
 }
