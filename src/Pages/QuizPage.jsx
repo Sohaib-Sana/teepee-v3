@@ -103,7 +103,10 @@ const QuizPage = () => {
               {/* Student Name + Source Button */}
               <div className="flex justify-between items-center">
                 <div className="w-1/6">
-                  <label className="block text-sm font-medium">Student Name</label>
+                  <label className="block text-sm font-medium">
+                    Student Name
+                    <span className="text-red-500">*</span>
+                  </label>
                   <Field
                     name="studentName"
                     placeholder=""
@@ -171,7 +174,7 @@ const QuizPage = () => {
                 className="w-full primary-button py-2 px-0 rounded-md hover:bg-blue-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isSubmitting || (errors.studentName && touched.studentName)}
               >
-                {isSubmitting ? "Evaluating..." : "Submit Answers"}
+                {isSubmitting ? "Evaluating..." : errors.studentName ? "Please enter your name before submitting the task" : "Submit Answers"}
               </button>
             </Form>
           )}
