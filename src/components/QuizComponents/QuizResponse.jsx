@@ -96,15 +96,17 @@ const QuizResponse = ({ responseData }) => {
               <div key={ques.question_id} className="space-y-4">
                 <div className="flex justify-between items-start">
                   <div className="text-gray-800 text-sm">
-                    <span className="font-semibold">Question {index + 1}:</span>
-                    {ques.question
-                      .replace(/ \n+/g, " ")
-                      .split("\n")
-                      .map((line, i) => (
-                        <p key={i} className="mb-2">
-                          {line}
-                        </p>
-                      ))}
+                    <span className="font-semibold">
+                      Question {index + 1}:
+                      {ques.question
+                        .replace(/ \n+/g, " ")
+                        .split("\n")
+                        .map((line, i) => (
+                          <p key={i} className="mb-2">
+                            {line}
+                          </p>
+                        ))}
+                    </span>
                   </div>
                   <span className="text-xs text-black font-bold">
                     {ques.obtained_marks}/{ques.marks}

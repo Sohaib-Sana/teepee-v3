@@ -18,6 +18,7 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
       })
       .catch((error) => console.error("Error creating quiz:", error));
   };
+
   const handleRemove = (id) => {
     setQuestions?.((prev) => prev.filter((ques) => ques.question_id !== id));
   };
@@ -73,11 +74,11 @@ function GeneratedQuestions({ questions, setQuestions, taskConfig, setDialogOpen
         <button
           type="button"
           onClick={() => {
-            handleShare(taskConfig.paperId, taskConfig.quizName, taskConfig.humanInLoop);
+            !readOnly ? handleShare(taskConfig.paperId, taskConfig.quizName, taskConfig.humanInLoop) : setDialogOpen?.(true);
           }}
           className="btn btn-primary btn-block"
         >
-          Share Paper
+          Share Task
         </button>
         {/* )} */}
       </div>

@@ -121,6 +121,7 @@ export default function PDFProcessCard({ selectedSubjectId, onSaved }) {
             <select value={paperSection} onChange={(e) => setPaperSection(parseInt(e.target.value))} className="w-full border rounded px-3 py-2">
               <option value={1}>Paper 1</option>
               <option value={2}>Paper 2</option>
+              <option value={3}>Paper 3</option>
             </select>
           </div>
 
